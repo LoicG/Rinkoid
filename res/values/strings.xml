@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rinkoid</string>
+    <string name="n1">N1 Elite</string>
+    <string name="n2n">N2 Nord</string>
+    <string name="n2s">N2 Sud</string>
+</resources>

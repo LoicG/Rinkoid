@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/n1"
+          android:title="@string/n1"
+          android:showAsAction="never"/>
+    <item android:id="@+id/n2n"
+          android:title="@string/n2n"
+          android:showAsAction="never"/>
+    <item android:id="@+id/n2s"
+          android:title="@string/n2s"
+          android:showAsAction="never"/>
+</menu>
