@@ -3,6 +3,9 @@ package fr.sport.rinkoid;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.sport.rinkoid.bar.SpinnerNavItem;
+import fr.sport.rinkoid.bar.TitleNavigationAdapter;
+
 import android.app.ActionBar;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -28,7 +31,6 @@ public class MainActivity extends FragmentActivity  implements ActionBar.OnNavig
         setContentView(R.layout.activity_main);
 
         actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
         Resources ressources = getResources();
@@ -42,9 +44,12 @@ public class MainActivity extends FragmentActivity  implements ActionBar.OnNavig
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabHost = (TabHost) findViewById(android.R.id.tabhost);
         tabHost.setup();
-        AddTab(tabHost, tabHost.newTabSpec("Tab1").setIndicator("Tab1"));
-        AddTab(tabHost, tabHost.newTabSpec("Tab2").setIndicator("Tab2"));
-        AddTab(tabHost, tabHost.newTabSpec("Tab3").setIndicator("Tab3"));
+        AddTab(tabHost, tabHost.newTabSpec("scheduleTab").setIndicator(
+            ressources.getString(R.string.schedule)));
+        AddTab(tabHost, tabHost.newTabSpec("rankingTab").setIndicator(
+            ressources.getString(R.string.ranking)));
+        AddTab(tabHost, tabHost.newTabSpec("kickersTab").setIndicator(
+            ressources.getString(R.string.kickers)));
         tabHost.setOnTabChangedListener(this);
 
         List<Fragment> fragments = CreatePageFragments();
@@ -79,12 +84,9 @@ public class MainActivity extends FragmentActivity  implements ActionBar.OnNavig
 
     private List<Fragment> CreatePageFragments() {
         List<Fragment> fList = new ArrayList<Fragment>();
-        PageFragment f1 = PageFragment.newInstance("Sample Fragment 1");
-        PageFragment f2 = PageFragment.newInstance("Sample Fragment 2");
-        PageFragment f3 = PageFragment.newInstance("Sample Fragment 3");
-        fList.add(f1);
-        fList.add(f2);
-        fList.add(f3);
+        fList.add(PageFragment.newInstance("Sample Fragment 1"));
+        fList.add(new RankingFragment());
+        fList.add(new KickersFragment());
         return fList;
     }
 

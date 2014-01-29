@@ -1,4 +1,4 @@
-package fr.sport.rinkoid;
+package fr.sport.rinkoid.bar;
 
 public class SpinnerNavItem {
 

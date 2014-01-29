@@ -1,4 +1,6 @@
-package fr.sport.rinkoid;
+package fr.sport.rinkoid.bar;
+
+import fr.sport.rinkoid.R;
 
 import java.util.ArrayList;
 
