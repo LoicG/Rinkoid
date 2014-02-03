@@ -21,7 +21,7 @@ public class RanksFragment extends Fragment {
         return items;
     }
 
-    public RanksFragment(){
+    public RanksFragment() {
     }
 
     @Override

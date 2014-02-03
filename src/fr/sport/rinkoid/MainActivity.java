@@ -7,6 +7,7 @@ import fr.sport.rinkoid.bar.SpinnerNavItem;
 import fr.sport.rinkoid.bar.TitleNavigationAdapter;
 import fr.sport.rinkoid.kickers.KickersFragment;
 import fr.sport.rinkoid.ranks.RanksFragment;
+import fr.sport.rinkoid.shedule.ScheduleFragment;
 
 import android.app.ActionBar;
 import android.content.res.Resources;
@@ -86,7 +87,7 @@ public class MainActivity extends FragmentActivity  implements ActionBar.OnNavig
 
     private List<Fragment> CreatePageFragments() {
         List<Fragment> fList = new ArrayList<Fragment>();
-        fList.add(PageFragment.newInstance("Sample Fragment 1"));
+        fList.add(new ScheduleFragment());
         fList.add(new RanksFragment());
         fList.add(new KickersFragment());
         return fList;
