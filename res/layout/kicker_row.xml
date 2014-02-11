@@ -9,5 +9,13 @@
     <TextView android:id="@+id/name"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
+              android:gravity="left"/>
+    <TextView android:id="@+id/club"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="right"/>
+    <TextView android:id="@+id/goals"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               android:gravity="right"/>
 </LinearLayout>

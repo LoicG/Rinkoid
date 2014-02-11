@@ -1,7 +1,6 @@
 package fr.sport.rinkoid.kickers;
 
-import java.util.ArrayList;
-
+import fr.sport.rinkoid.DatabaseHelper;
 import fr.sport.rinkoid.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,15 +11,7 @@ import android.widget.ListView;
 
 public class KickersFragment extends Fragment {
     private static ListView listview;
-
-    private ArrayList<Kicker> generateData(){
-        ArrayList<Kicker> items = new ArrayList<Kicker>();
-        items.add(new Kicker("1","buteur1"));
-        items.add(new Kicker("2","buteur2"));
-        items.add(new Kicker("3","buteur3"));
-        return items;
-    }
-
+    
     public KickersFragment() {
     }
 
@@ -28,8 +19,18 @@ public class KickersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.listview, container, false);
         listview = (ListView) view.findViewById(R.id.listView);
-        KickersAdapter adapter = new KickersAdapter(getActivity(), generateData());
+
+        KickersAdapter adapter = new KickersAdapter(getActivity(),
+                new DatabaseHelper(getActivity()).GetKickers("N1"));
         listview.setAdapter(adapter);
         return view;
+    }
+
+    public void Udpate(String championship) {
+        if( listview != null ) {
+            KickersAdapter adapter = (KickersAdapter) listview.getAdapter();
+            if(adapter!=null)
+                adapter.Update(new DatabaseHelper(getActivity()).GetKickers(championship));
+        }
     }
 }

@@ -1,25 +1,21 @@
 package fr.sport.rinkoid;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import fr.sport.rinkoid.bar.SpinnerNavItem;
 import fr.sport.rinkoid.bar.TitleNavigationAdapter;
-import fr.sport.rinkoid.kickers.KickersFragment;
-import fr.sport.rinkoid.ranks.RanksFragment;
-import fr.sport.rinkoid.shedule.ScheduleFragment;
 
 import android.app.ActionBar;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 
-public class MainActivity extends FragmentActivity  implements ActionBar.OnNavigationListener, OnTabChangeListener, OnPageChangeListener {
+public class MainActivity extends FragmentActivity implements ActionBar.OnNavigationListener,
+    OnTabChangeListener, OnPageChangeListener {
 
     private ActionBar actionBar;
     private ArrayList<SpinnerNavItem> navSpinner;
@@ -27,11 +23,16 @@ public class MainActivity extends FragmentActivity  implements ActionBar.OnNavig
     PageAdapter pageAdapter;
     private ViewPager viewPager;
     private TabHost tabHost;
+    private DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        db = new DatabaseHelper(getApplicationContext());
+
+        db.Clear();
+        GenerateDataTest();
 
         actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
@@ -55,10 +56,9 @@ public class MainActivity extends FragmentActivity  implements ActionBar.OnNavig
             ressources.getString(R.string.kickers)));
         tabHost.setOnTabChangedListener(this);
 
-        List<Fragment> fragments = CreatePageFragments();
-        pageAdapter = new PageAdapter(getSupportFragmentManager(), fragments);
+        pageAdapter = new PageAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pageAdapter);
-        viewPager.setOnPageChangeListener(MainActivity.this);
+        viewPager.setOnPageChangeListener(this);
     }
 
     private void AddTab(TabHost tabHost, TabHost.TabSpec tabSpec) {
@@ -85,17 +85,22 @@ public class MainActivity extends FragmentActivity  implements ActionBar.OnNavig
         public void onPageSelected(int arg0) {
     }
 
-    private List<Fragment> CreatePageFragments() {
-        List<Fragment> fList = new ArrayList<Fragment>();
-        fList.add(new ScheduleFragment());
-        fList.add(new RanksFragment());
-        fList.add(new KickersFragment());
-        return fList;
-    }
-
     @Override
     public boolean onNavigationItemSelected(int arg0, long arg1) {
+        pageAdapter.Update(Tools.ConvertChampionship(arg0));
         return false;
+    }
+
+    private void GenerateDataTest()
+    {
+        db.Save("Bernard", "N1", "eag", 10);
+        db.Save("Albert", "N1", "eag", 10);
+        db.Save("Zorro", "N1", "lorient",23);
+        db.Save("Loic", "N1", "nantes", 5);
+        db.Save("Jean", "N2N", "psg", 10);
+        db.Save("Pierre", "N2N", "brest", 5);
+        db.Save("Jacques", "N2S", "quimper", 1);
+        // close database
     }
 }
 
