@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class RanksAdapter extends ArrayAdapter<Rank> {
     private final Context context;
-    private final ArrayList<Rank> items;
+    private ArrayList<Rank> items;
 
     public RanksAdapter(Context context, ArrayList<Rank> items) {
         super(context, R.layout.rank_row, items);
@@ -26,10 +26,30 @@ public class RanksAdapter extends ArrayAdapter<Rank> {
         LayoutInflater inflater = (LayoutInflater) context
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.rank_row, parent, false);
-        TextView rankView = (TextView) rowView.findViewById(R.id.rank);
-        TextView nameView = (TextView) rowView.findViewById(R.id.name);
-        rankView.setText(items.get(position).getRank());
-        nameView.setText(items.get(position).getName());
+        Rank rank = items.get(position);
+        SetText(R.id.rank, rowView, String.valueOf(position+1));
+        SetText(R.id.club, rowView, rank.getClub());
+        SetText(R.id.points, rowView, rank.getPoints());
+        SetText(R.id.win, rowView, rank.getWin());
+        SetText(R.id.draw, rowView, rank.getDraw());
+        SetText(R.id.lost, rowView, rank.getLost());
+        SetText(R.id.diff, rowView, rank.getDiff());
         return rowView;
     }
+
+    private void SetText( int id, View rowView, String text ) {
+        TextView view = (TextView) rowView.findViewById(id);
+        view.setText(text);
+    }
+
+    public void Update(ArrayList<Rank> items) {
+        this.items = items;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getCount() {
+        return items.size();
+    }
 }
+

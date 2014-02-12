@@ -93,13 +93,22 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
 
     private void GenerateDataTest()
     {
-        db.Save("Bernard", "N1", "eag", 10);
-        db.Save("Albert", "N1", "eag", 10);
-        db.Save("Zorro", "N1", "lorient",23);
-        db.Save("Loic", "N1", "nantes", 5);
-        db.Save("Jean", "N2N", "psg", 10);
-        db.Save("Pierre", "N2N", "brest", 5);
-        db.Save("Jacques", "N2S", "quimper", 1);
+        db.SaveKicker("Bernard", "N1", "eag", 10);
+        db.SaveKicker("Albert", "N1", "eag", 10);
+        db.SaveKicker("Zorro", "N1", "lorient",23);
+        db.SaveKicker("Loic", "N1", "nantes", 5);
+        db.SaveKicker("Jean", "N2N", "psg", 10);
+        db.SaveKicker("Pierre", "N2N", "brest", 5);
+        db.SaveKicker("Jacques", "N2S", "quimper", 1);
+
+        db.SaveRank("equipe6", "N1", 1, 5, 5, 3, 3);
+        db.SaveRank("equipe1", "N1", 12, 6, 5, 1, 12);
+        db.SaveRank("equipe2", "N1", 12, 5, 5, 3, 24);
+        db.SaveRank("equipe3", "N1", 12, 5, 5, 3, -25);
+        db.SaveRank("equipe5", "N1", 2, 5, 5, 3, 10);
+        db.SaveRank("equipe4", "N1", 2, 2, 1, 3, 10);
+        db.SaveRank("equipeN2N", "N2N", 2, 2, 1, 3, 10);
+        db.SaveRank("equipeN2S", "N2S", 2, 2, 1, 3, 10);
         // close database
     }
 }

@@ -1,8 +1,8 @@
 package fr.sport.rinkoid.ranks;
 
-import java.util.ArrayList;
-
+import fr.sport.rinkoid.DatabaseHelper;
 import fr.sport.rinkoid.R;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,14 +13,6 @@ import android.widget.ListView;
 public class RanksFragment extends Fragment {
     private static ListView listview;
 
-    private ArrayList<Rank> generateData(){
-        ArrayList<Rank> items = new ArrayList<Rank>();
-        items.add(new Rank("1","club1"));
-        items.add(new Rank("2","club2"));
-        items.add(new Rank("3","club3"));
-        return items;
-    }
-
     public RanksFragment() {
     }
 
@@ -28,8 +20,18 @@ public class RanksFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.listview, container, false);
         listview = (ListView) view.findViewById(R.id.listView);
-        RanksAdapter adapter = new RanksAdapter(getActivity(), generateData());
+        RanksAdapter adapter = new RanksAdapter(getActivity(),
+                new DatabaseHelper(getActivity()).GetRanks("N1"));
         listview.setAdapter(adapter);
         return view;
     }
+
+    public void Udpate(String championship) {
+        if( listview != null ) {
+            RanksAdapter adapter = (RanksAdapter) listview.getAdapter();
+            if(adapter!=null)
+                adapter.Update(new DatabaseHelper(getActivity()).GetRanks(championship));
+        }
+    }
 }
+
