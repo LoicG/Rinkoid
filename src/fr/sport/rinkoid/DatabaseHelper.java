@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import fr.sport.rinkoid.kickers.Kicker;
 import fr.sport.rinkoid.ranks.Rank;
+import fr.sport.rinkoid.shedule.Match;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -41,6 +42,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + LOST_ATTRIBUT + " INTEGER NOT NULL,"
             + DIFF_ATTRIBUT + " INTEGER NOT NULL" + ")";
 
+    private static final String SCHEDULE_N1_TABLE = "schedule_n1_table";
+    private static final String SCHEDULE_N2N_TABLE = "schedule_n2n_table";
+    private static final String SCHEDULE_N2S_TABLE = "schedule_n2s_table";
+    private static final String DAY_ATTRIBUT = "day_attribut";
+    private static final String DATE_ATTRIBUT = "date_attribut";
+    private static final String HOME_ATTRIBUT = "home_attribut";
+    private static final String SCORE_ATTRIBUT = "score_attribut";
+    private static final String OUTSIDE_ATTRIBUT = "outside_attribut";
+
+    private String createShedule(String name) {
+        return "CREATE TABLE " + name +
+                "(" + DAY_ATTRIBUT + " INTEGER NOT NULL," 
+                + DATE_ATTRIBUT + " DATE NOT NULL,"
+                + HOME_ATTRIBUT + " TEXT NOT NULL,"
+                + SCORE_ATTRIBUT + " TEXT,"
+                + OUTSIDE_ATTRIBUT + " TEXT NOT NULL" + ")";
+    }
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -49,6 +68,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_KICKERS_TABLE);
         db.execSQL(CREATE_RANKS_TABLE);
+        db.execSQL(createShedule(SCHEDULE_N1_TABLE));
+        db.execSQL(createShedule(SCHEDULE_N2N_TABLE));
+        db.execSQL(createShedule(SCHEDULE_N2S_TABLE));
     }
 
     @Override
@@ -77,12 +99,62 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         getWritableDatabase().insert(RANKS_TABLE, null, value);
     }
 
+    public void SaveMatch(int day, String championship, String date, String home,
+            String score, String outside) {
+        ContentValues value = new ContentValues();
+        value.put(DAY_ATTRIBUT, day);
+        value.put(DATE_ATTRIBUT, date);
+        value.put(HOME_ATTRIBUT, home);
+        value.put(SCORE_ATTRIBUT, score);
+        value.put(OUTSIDE_ATTRIBUT, outside);
+        getWritableDatabase().insert(getScheduleTable(championship), null, value);
+    }
+
+    private String getScheduleTable(String championship) {
+        if(championship == "N1")
+            return SCHEDULE_N1_TABLE;
+        else if( championship == "N2N")
+            return SCHEDULE_N2N_TABLE;
+        else
+            return SCHEDULE_N2S_TABLE;
+    }
+
+    public int GetScheduleCount(String championship) {
+        String query = "SELECT MAX(" + DAY_ATTRIBUT + ") FROM " +
+                getScheduleTable(championship);
+        Cursor cursor = getReadableDatabase().rawQuery(query, null);
+        int count = 0;
+        if(cursor.moveToFirst())
+        {
+            do
+            {
+                count = cursor.getInt(0);
+            } while(cursor.moveToNext());
+        }
+        return count;
+    }
+
+    public ArrayList<Match> GetMatchs(String championship, int day ) {
+        ArrayList<Match> matchs = new ArrayList<Match>();
+        String query = "SELECT * FROM " + getScheduleTable(championship) +
+                " WHERE " + DAY_ATTRIBUT + " = '" + day + "'";
+        Cursor c = getReadableDatabase().rawQuery(query, null);
+        if(c.moveToFirst()) {
+            do {
+                matchs.add(new Match( c.getString(c.getColumnIndex(HOME_ATTRIBUT)),
+                        c.getString(c.getColumnIndex(SCORE_ATTRIBUT)),
+                        c.getString(c.getColumnIndex(OUTSIDE_ATTRIBUT))));
+            } while (c.moveToNext());
+        }
+        return matchs;
+    }
+
     public ArrayList<Kicker> GetKickers(String championship) {
         ArrayList<Kicker> kickers = new ArrayList<Kicker>();
-        String selectQuery = "SELECT  * FROM " + KICKERS_TABLE +
+        String query = "SELECT * FROM " + KICKERS_TABLE +
                 " WHERE " + CHAMPIONSHIP_ATTRIBUT + " = '" + championship + "'" +
                 " ORDER BY " + GOALS_ATTRIBUT + " DESC, " + NAME_ATTRIBUT + " ASC";
-        Cursor c = getReadableDatabase().rawQuery(selectQuery, null);
+        Cursor c = getReadableDatabase().rawQuery(query, null);
         if(c.moveToFirst()) {
             do {
                 kickers.add(new Kicker( c.getString(c.getColumnIndex(NAME_ATTRIBUT)),
@@ -95,11 +167,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public ArrayList<Rank> GetRanks(String championship) {
         ArrayList<Rank> ranks = new ArrayList<Rank>();
-        String selectQuery = "SELECT  * FROM " + RANKS_TABLE +
+        String query = "SELECT * FROM " + RANKS_TABLE +
                 " WHERE " + CHAMPIONSHIP_ATTRIBUT + " = '" + championship + "'" +
                 " ORDER BY " + POINTS_ATTRIBUT + " DESC, " + DIFF_ATTRIBUT + " DESC, "
                 + CLUB_ATTRIBUT + " ASC";
-        Cursor c = getReadableDatabase().rawQuery(selectQuery, null);
+        Cursor c = getReadableDatabase().rawQuery(query, null);
         if(c.moveToFirst()) {
             do {
                 ranks.add(new Rank( c.getString(c.getColumnIndex(CLUB_ATTRIBUT)),
@@ -116,5 +188,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void Clear() {
       getWritableDatabase().delete(KICKERS_TABLE, "", null);
       getWritableDatabase().delete(RANKS_TABLE, "", null);
+      getWritableDatabase().delete(SCHEDULE_N1_TABLE, "", null);
+      getWritableDatabase().delete(SCHEDULE_N2N_TABLE, "", null);
+      getWritableDatabase().delete(SCHEDULE_N2S_TABLE, "", null);
     }
 }

@@ -109,6 +109,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         db.SaveRank("equipe4", "N1", 2, 2, 1, 3, 10);
         db.SaveRank("equipeN2N", "N2N", 2, 2, 1, 3, 10);
         db.SaveRank("equipeN2S", "N2S", 2, 2, 1, 3, 10);
+
+        db.SaveMatch(1, "N1", "2014-02-14", "Equipe1", "2-1", "Equipe2");
+        db.SaveMatch(1, "N1", "2014-02-14", "Equipe3", "5-5", "Equipe4");
+        db.SaveMatch(2, "N1", "2014-02-16", "Equipe1", "1-5", "Equipe3");
+        db.SaveMatch(2, "N1", "2014-02-16", "Equipe2", "", "Equipe4");
+        db.SaveMatch(3, "N1", "2014-02-18", "Equipe1", "", "Equipe2");
+        db.SaveMatch(3, "N1", "2014-02-18", "Equipe3", "", "Equipe4");
+        db.SaveMatch(1, "N2N", "2014-02-14", "EquipeA", "1-9", "EquipeB");
+        db.SaveMatch(2, "N2N", "2014-02-22", "EquipeB", "5-9", "EquipeA");
+        db.SaveMatch(1, "N2S", "2014-02-17", "EquipeD", "", "EquipeC");
         // close database
     }
 }

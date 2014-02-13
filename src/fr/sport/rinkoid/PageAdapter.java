@@ -42,5 +42,6 @@ public class PageAdapter extends FragmentPagerAdapter {
     public void Update(String championship) {
         kickers.Udpate(championship);
         ranks.Udpate(championship);
+        schedule.Update(championship);
     }
 }
