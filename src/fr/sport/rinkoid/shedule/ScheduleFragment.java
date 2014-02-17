@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -52,9 +53,9 @@ public class ScheduleFragment  extends Fragment implements OnClickListener, OnIt
         spinner.setAdapter(daysAdapter);
         spinner.setOnItemSelectedListener(this);
 
-        Button nextButton = (Button) view.findViewById(R.id.next);
+        ImageButton nextButton = (ImageButton) view.findViewById(R.id.next);
         nextButton.setOnClickListener(this);
-        Button prevButton = (Button) view.findViewById(R.id.prev);
+        ImageButton prevButton = (ImageButton) view.findViewById(R.id.prev);
         prevButton.setOnClickListener(this);
         return view;
     }
