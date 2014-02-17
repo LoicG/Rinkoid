@@ -7,10 +7,14 @@ import fr.sport.rinkoid.bar.TitleNavigationAdapter;
 
 import android.app.ActionBar;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 
@@ -24,6 +28,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
     private ViewPager viewPager;
     private TabHost tabHost;
     private DatabaseHelper db;
+    private MenuItem menuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         GenerateDataTest();
 
         actionBar = getActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
         Resources ressources = getResources();
@@ -86,9 +92,50 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.update_button, menu);
+        return true;
+    }
+
+    @Override
     public boolean onNavigationItemSelected(int arg0, long arg1) {
         pageAdapter.Update(Tools.ConvertChampionship(arg0));
         return false;
+    }
+
+    private class TestTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+          try {
+            Thread.sleep(2000);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+          return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+          menuItem.collapseActionView();
+          menuItem.setActionView(null);
+        }
+      };
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+      switch (item.getItemId()) {
+      case R.id.menu_load:
+        menuItem = item;
+        menuItem.setActionView(R.layout.progress_bar);
+        menuItem.expandActionView();
+        TestTask task = new TestTask();
+        task.execute("test");
+        break;
+      default:
+        break;
+      }
+      return true;
     }
 
     private void GenerateDataTest()
