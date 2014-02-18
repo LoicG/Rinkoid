@@ -29,11 +29,11 @@ public class RanksAdapter extends ArrayAdapter<Rank> {
         Rank rank = items.get(position);
         SetText(R.id.rank, rowView, String.valueOf(position+1));
         SetText(R.id.club, rowView, rank.getClub());
-        SetText(R.id.points, rowView, rank.getPoints());
-        SetText(R.id.win, rowView, rank.getWin());
-        SetText(R.id.draw, rowView, rank.getDraw());
-        SetText(R.id.lost, rowView, rank.getLost());
-        SetText(R.id.diff, rowView, rank.getDiff());
+        SetText(R.id.points, rowView, String.valueOf(rank.getPoints()));
+        SetText(R.id.win, rowView, String.valueOf(rank.getWin()));
+        SetText(R.id.draw, rowView, String.valueOf(rank.getDraw()));
+        SetText(R.id.lost, rowView, String.valueOf(rank.getLost()));
+        SetText(R.id.diff, rowView, String.valueOf(rank.getDiff()));
         return rowView;
     }
 

@@ -2,12 +2,14 @@ package fr.sport.rinkoid;
 
 import java.util.ArrayList;
 
+import download.DownloadManager;
+
 import fr.sport.rinkoid.bar.SpinnerNavItem;
 import fr.sport.rinkoid.bar.TitleNavigationAdapter;
+import fr.sport.rinkoid.ranks.Rank;
 
 import android.app.ActionBar;
 import android.content.res.Resources;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -28,14 +30,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
     private ViewPager viewPager;
     private TabHost tabHost;
     private DatabaseHelper db;
-    private MenuItem menuItem;
+    private DownloadManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         db = new DatabaseHelper(getApplicationContext());
-
         db.Clear();
         GenerateDataTest();
 
@@ -65,6 +66,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         pageAdapter = new PageAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pageAdapter);
         viewPager.setOnPageChangeListener(this);
+        manager = new DownloadManager(db,pageAdapter);
     }
 
     private void AddTab(TabHost tabHost, TabHost.TabSpec tabSpec) {
@@ -88,7 +90,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
     }
 
     @Override
-        public void onPageSelected(int arg0) {
+    public void onPageSelected(int arg0) {
     }
 
     @Override
@@ -99,47 +101,24 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
     }
 
     @Override
-    public boolean onNavigationItemSelected(int arg0, long arg1) {
-        pageAdapter.Update(Tools.ConvertChampionship(arg0));
+    public boolean onNavigationItemSelected(int championship, long arg1) {
+        pageAdapter.onChampionshipChanged(championship);
+        manager.onChampionshipChanged(championship);
         return false;
     }
-
-    private class TestTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-          try {
-            Thread.sleep(2000);
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          }
-          return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-          menuItem.collapseActionView();
-          menuItem.setActionView(null);
-        }
-      };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
       switch (item.getItemId()) {
       case R.id.menu_load:
-        menuItem = item;
-        menuItem.setActionView(R.layout.progress_bar);
-        menuItem.expandActionView();
-        TestTask task = new TestTask();
-        task.execute("test");
-        break;
+        manager.Update(item);
       default:
         break;
       }
       return true;
     }
 
-    private void GenerateDataTest()
-    {
+    private void GenerateDataTest() {
         db.SaveKicker("Bernard", "N1", "eag", 10);
         db.SaveKicker("Albert", "N1", "eag", 10);
         db.SaveKicker("Zorro", "N1", "lorient",23);
@@ -148,14 +127,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         db.SaveKicker("Pierre", "N2N", "brest", 5);
         db.SaveKicker("Jacques", "N2S", "quimper", 1);
 
-        db.SaveRank("equipe6", "N1", 1, 5, 5, 3, 3);
-        db.SaveRank("equipe1", "N1", 12, 6, 5, 1, 12);
-        db.SaveRank("equipe2", "N1", 12, 5, 5, 3, 24);
-        db.SaveRank("equipe3", "N1", 12, 5, 5, 3, -25);
-        db.SaveRank("equipe5", "N1", 2, 5, 5, 3, 10);
-        db.SaveRank("equipe4", "N1", 2, 2, 1, 3, 10);
-        db.SaveRank("equipeN2N", "N2N", 2, 2, 1, 3, 10);
-        db.SaveRank("equipeN2S", "N2S", 2, 2, 1, 3, 10);
+        ArrayList<Rank> ranks = new ArrayList<Rank>();
+        ranks.add(new Rank("equipe6", 1, 5, 5, 3, 3));
+        ranks.add(new Rank("equipe1", 12, 6, 5, 1, 12));
+        ranks.add(new Rank("equipe2", 12, 5, 5, 3, 24));
+        ranks.add(new Rank("equipe3", 12, 5, 5, 3, -25));
+        ranks.add(new Rank("equipe5", 2, 5, 5, 3, 10));
+        ranks.add(new Rank("equipe4", 2, 2, 1, 3, 10));
+        db.SaveRanks(ranks, Tools.N1);
+        ranks.clear();
+        ranks.add(new Rank("equipeN2N", 2, 1, 3, 4, -6));
+        db.SaveRanks(ranks, Tools.N2N);
+        ranks.clear();
+        ranks.add(new Rank("equipeN2S", 32, 1, 10, 5, 96));
+        db.SaveRanks(ranks, Tools.N2S);
 
         db.SaveMatch(1, "N1", "2014-02-14", "Equipe1", "2-1", "Equipe2");
         db.SaveMatch(1, "N1", "2014-02-14", "Equipe3", "5-5", "Equipe4");

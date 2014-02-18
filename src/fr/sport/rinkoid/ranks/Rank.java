@@ -2,14 +2,14 @@ package fr.sport.rinkoid.ranks;
 
 public class Rank {
     private String club;
-    private String points;
-    private String win;
-    private String draw;
-    private String lost;
-    private String diff;
+    private int points;
+    private int win;
+    private int draw;
+    private int lost;
+    private int diff;
 
-    public Rank(String club, String points, String win, String draw,
-            String lost, String diff) {
+    public Rank(String club, int points, int win, int draw,
+            int lost, int diff) {
         this.club = club;
         this.points = points;
         this.win = win;
@@ -22,23 +22,23 @@ public class Rank {
         return club;
     }
 
-    public String getPoints() {
+    public int getPoints() {
         return points;
     }
 
-    public String getWin() {
+    public int getWin() {
         return win;
     }
 
-    public String getDraw() {
+    public int getDraw() {
         return draw;
     }
 
-    public String getLost() {
+    public int getLost() {
         return lost;
     }
 
-    public String getDiff() {
+    public int getDiff() {
         return diff;
     }
 }

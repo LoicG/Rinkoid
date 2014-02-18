@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-public class PageAdapter extends FragmentPagerAdapter {
+public class PageAdapter extends FragmentPagerAdapter implements IStateChanged {
 	
     private ScheduleFragment schedule;
     private RanksFragment ranks;
@@ -39,9 +39,10 @@ public class PageAdapter extends FragmentPagerAdapter {
         return Tools.PAGES;
     }
 
-    public void Update(String championship) {
-        kickers.Udpate(championship);
-        ranks.Udpate(championship);
-        schedule.Update(championship);
+    @Override
+    public void onChampionshipChanged(int championship) {
+        kickers.onChampionshipChanged(championship);
+        ranks.onChampionshipChanged(championship);
+        schedule.onChampionshipChanged(championship);
     }
 }

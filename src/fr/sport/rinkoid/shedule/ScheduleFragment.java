@@ -3,7 +3,9 @@ package fr.sport.rinkoid.shedule;
 import java.util.ArrayList;
 
 import fr.sport.rinkoid.DatabaseHelper;
+import fr.sport.rinkoid.IStateChanged;
 import fr.sport.rinkoid.R;
+import fr.sport.rinkoid.Tools;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,15 +15,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-public class ScheduleFragment  extends Fragment implements OnClickListener, OnItemSelectedListener {
+public class ScheduleFragment  extends Fragment implements OnClickListener,
+        OnItemSelectedListener, IStateChanged {
     private static ListView listview;
     private static Spinner spinner;
-    private String currentChampionship_;
+    private int currentChampionship_;
 
     private ArrayList<String> generateDays(int count){
         ArrayList<String> items = new ArrayList<String>();
@@ -31,7 +33,7 @@ public class ScheduleFragment  extends Fragment implements OnClickListener, OnIt
     }
 
     public ScheduleFragment() {
-        this.currentChampionship_ = "N1";
+        this.currentChampionship_ = Tools.N1;
     }
 
     @Override
@@ -48,7 +50,7 @@ public class ScheduleFragment  extends Fragment implements OnClickListener, OnIt
         ArrayAdapter<String> daysAdapter = new ArrayAdapter<String>(
                 getActivity(), 
                 android.R.layout.simple_spinner_item,
-                generateDays(db.GetScheduleCount("N1")));
+                generateDays(db.GetScheduleCount(currentChampionship_)));
                 daysAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); 
         spinner.setAdapter(daysAdapter);
         spinner.setOnItemSelectedListener(this);
@@ -58,19 +60,6 @@ public class ScheduleFragment  extends Fragment implements OnClickListener, OnIt
         ImageButton prevButton = (ImageButton) view.findViewById(R.id.prev);
         prevButton.setOnClickListener(this);
         return view;
-    }
-
-    public void Update(String championship) {
-        currentChampionship_ = championship;
-        if( spinner != null ) {
-            ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner.getAdapter();
-            if( adapter != null ) {
-                adapter.clear();
-                adapter.addAll(generateDays(new DatabaseHelper(getActivity()).GetScheduleCount(currentChampionship_)));
-                adapter.notifyDataSetChanged();
-            }
-        }
-        UpdateListView(1);
     }
 
     private void UpdateListView(int day) {
@@ -106,6 +95,21 @@ public class ScheduleFragment  extends Fragment implements OnClickListener, OnIt
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+    }
+
+    @Override
+    public void onChampionshipChanged(int championship) {
+        currentChampionship_ = championship;
+        if( spinner != null ) {
+            ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner.getAdapter();
+            if( adapter != null ) {
+                adapter.clear();
+                adapter.addAll(generateDays(new DatabaseHelper(getActivity()).
+                        GetScheduleCount(currentChampionship_)));
+                adapter.notifyDataSetChanged();
+            }
+        }
+        UpdateListView(1);
     }
 }
 

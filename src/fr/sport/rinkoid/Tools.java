@@ -21,4 +21,30 @@ public class Tools {
             return "";
         }
     }
+
+    public static String GetKickersUrl(int id) {
+        switch(id) {
+        case N1:
+            return "http://stat.ffrs.asso.fr/stats/match/buteurs/1810";
+        case N2N:
+            return "http://stat.ffrs.asso.fr/stats/match/buteurs/1812";
+        case N2S:
+            return "http://stat.ffrs.asso.fr/stats/match/buteurs/1853";
+        default:
+            return "";
+        }
+    }
+
+    public static String GetRanksUrl(int id) {
+        switch(id) {
+        case N1:
+            return "http://stat.ffrs.asso.fr/stats/match/classement/1810";
+        case N2N:
+            return "http://stat.ffrs.asso.fr/stats/match/classement/1812";
+        case N2S:
+            return "http://stat.ffrs.asso.fr/stats/match/classement/1853";
+        default:
+            return "";
+        }
+    }
 }
