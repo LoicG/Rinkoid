@@ -27,8 +27,13 @@ public class ScheduleFragment  extends Fragment implements OnClickListener,
 
     private ArrayList<String> generateDays(int count){
         ArrayList<String> items = new ArrayList<String>();
-        for(int i = 0; i < count; ++i)
-            items.add("Journée " + String.valueOf(i+1));
+        for(int i = 0; i < count; ++i) {
+            if( i== 0) {
+                items.add("1ère journée");
+            }
+            else
+                items.add(String.valueOf(i+1) + "e journée");
+        }
         return items;
     }
 
