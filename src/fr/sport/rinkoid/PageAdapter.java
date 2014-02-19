@@ -45,4 +45,8 @@ public class PageAdapter extends FragmentPagerAdapter implements IStateChanged {
         ranks.onChampionshipChanged(championship);
         schedule.onChampionshipChanged(championship);
     }
+
+    @Override
+    public void onPageChanged(int page) {
+    }
 }

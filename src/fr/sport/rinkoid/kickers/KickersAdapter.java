@@ -30,7 +30,7 @@ public class KickersAdapter extends ArrayAdapter<Kicker> {
         SetText(R.id.rank, rowView, String.valueOf(position+1));
         SetText(R.id.name, rowView, kicker.getName());
         SetText(R.id.club, rowView, kicker.getClub());
-        SetText(R.id.goals, rowView, kicker.getGoals());
+        SetText(R.id.goals, rowView, String.valueOf(kicker.getGoals()));
         return rowView;
     }
 

@@ -47,4 +47,17 @@ public class Tools {
             return "";
         }
     }
+
+    public static String GetUrl(int championship,int page) {
+        switch(page) {
+        case SCHEDULE_PAGE:
+            return "";
+        case RANKS_PAGE:
+            return GetRanksUrl(championship);
+        case KICKERS_PAGE:
+            return GetKickersUrl(championship);
+        default:
+            return "";
+        }
+    }
 }

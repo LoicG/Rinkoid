@@ -74,14 +74,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-    public void SaveKicker(String name, String championship, String club,
-            int goals) {
-        ContentValues value = new ContentValues();
-        value.put(NAME_ATTRIBUT, name);
-        value.put(CHAMPIONSHIP_ATTRIBUT, championship);
-        value.put(CLUB_ATTRIBUT, club);
-        value.put(GOALS_ATTRIBUT, goals);
-        getWritableDatabase().insert(KICKERS_TABLE, null, value);
+    public void SaveKicker(ArrayList<Kicker> kickers, int championship) {
+        String division = Tools.ConvertChampionship(championship);
+        SQLiteDatabase database = getWritableDatabase();
+        database.delete(KICKERS_TABLE, CHAMPIONSHIP_ATTRIBUT + "='" + division
+                + "'", null);
+        for(Kicker kicker : kickers) {
+            ContentValues value = new ContentValues();
+            value.put(NAME_ATTRIBUT, kicker.getName());
+            value.put(CHAMPIONSHIP_ATTRIBUT, division);
+            value.put(CLUB_ATTRIBUT, kicker.getClub());
+            value.put(GOALS_ATTRIBUT, kicker.getGoals());
+            database.insert(KICKERS_TABLE, null, value);
+        }
     }
 
     public void SaveRanks(ArrayList<Rank> ranks, int championship) {
@@ -99,7 +104,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             value.put(DRAW_ATTRIBUT, rank.getDraw());
             value.put(LOST_ATTRIBUT, rank.getLost());
             value.put(DIFF_ATTRIBUT, rank.getDiff());
-            getWritableDatabase().insert(RANKS_TABLE, null, value);
+            database.insert(RANKS_TABLE, null, value);
         }
     }
 
@@ -164,7 +169,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
                 kickers.add(new Kicker(c.getString(c
-                        .getColumnIndex(NAME_ATTRIBUT)), c.getString(c
+                        .getColumnIndex(NAME_ATTRIBUT)), c.getInt(c
                         .getColumnIndex(GOALS_ATTRIBUT)), c.getString(c
                         .getColumnIndex(CLUB_ATTRIBUT))));
             } while (c.moveToNext());

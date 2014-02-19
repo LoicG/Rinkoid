@@ -6,6 +6,7 @@ import download.DownloadManager;
 
 import fr.sport.rinkoid.bar.SpinnerNavItem;
 import fr.sport.rinkoid.bar.TitleNavigationAdapter;
+import fr.sport.rinkoid.kickers.Kicker;
 import fr.sport.rinkoid.ranks.Rank;
 
 import android.app.ActionBar;
@@ -87,6 +88,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
     public void onPageScrolled(int arg0, float arg1, int arg2) {
         int pos = this.viewPager.getCurrentItem();
         this.tabHost.setCurrentTab(pos);
+        manager.onPageChanged(pos);
     }
 
     @Override
@@ -119,13 +121,19 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
     }
 
     private void GenerateDataTest() {
-        db.SaveKicker("Bernard", "N1", "eag", 10);
-        db.SaveKicker("Albert", "N1", "eag", 10);
-        db.SaveKicker("Zorro", "N1", "lorient",23);
-        db.SaveKicker("Loic", "N1", "nantes", 5);
-        db.SaveKicker("Jean", "N2N", "psg", 10);
-        db.SaveKicker("Pierre", "N2N", "brest", 5);
-        db.SaveKicker("Jacques", "N2S", "quimper", 1);
+        ArrayList<Kicker> kickers = new ArrayList<Kicker>();
+        kickers.add(new Kicker("Bernard", 10, "eag"));
+        kickers.add(new Kicker("Albert", 10, "eag"));
+        kickers.add(new Kicker("Zorro",23 , "lorient"));
+        kickers.add(new Kicker("Loic", 5, "nantes"));
+        db.SaveKicker(kickers, Tools.N1);
+        kickers.clear();
+        kickers.add(new Kicker("Jean", 10, "psg"));
+        kickers.add(new Kicker("Pierre", 10, "brest"));
+        db.SaveKicker(kickers, Tools.N2N);
+        kickers.clear();
+        kickers.add(new Kicker("Jacques", 10, "quimper"));
+        db.SaveKicker(kickers, Tools.N2S);
 
         ArrayList<Rank> ranks = new ArrayList<Rank>();
         ranks.add(new Rank("equipe6", 9, 1, 5, 5, 3, 3));

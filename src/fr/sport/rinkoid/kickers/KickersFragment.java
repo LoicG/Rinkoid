@@ -37,4 +37,8 @@ public class KickersFragment extends Fragment implements IStateChanged {
                         GetKickers(championship));
         }
     }
+
+    @Override
+    public void onPageChanged(int page) {
+    }
 }

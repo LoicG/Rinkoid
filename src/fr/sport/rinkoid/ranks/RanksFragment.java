@@ -36,5 +36,9 @@ public class RanksFragment extends Fragment implements IStateChanged {
                 adapter.Update(new DatabaseHelper(getActivity()).GetRanks(championship));
         }
     }
+
+    @Override
+    public void onPageChanged(int page) {
+    }
 }
 

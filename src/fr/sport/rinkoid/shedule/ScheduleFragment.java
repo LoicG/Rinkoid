@@ -116,5 +116,9 @@ public class ScheduleFragment  extends Fragment implements OnClickListener,
         }
         UpdateListView(1);
     }
+
+    @Override
+    public void onPageChanged(int page) {
+    }
 }
 
