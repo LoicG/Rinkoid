@@ -30,6 +30,7 @@ public class RanksAdapter extends ArrayAdapter<Rank> {
         SetText(R.id.rank, rowView, String.valueOf(position+1));
         SetText(R.id.club, rowView, rank.getClub());
         SetText(R.id.points, rowView, String.valueOf(rank.getPoints()));
+        SetText(R.id.days, rowView, String.valueOf(rank.getDays()));
         SetText(R.id.win, rowView, String.valueOf(rank.getWin()));
         SetText(R.id.draw, rowView, String.valueOf(rank.getDraw()));
         SetText(R.id.lost, rowView, String.valueOf(rank.getLost()));

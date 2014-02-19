@@ -128,18 +128,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         db.SaveKicker("Jacques", "N2S", "quimper", 1);
 
         ArrayList<Rank> ranks = new ArrayList<Rank>();
-        ranks.add(new Rank("equipe6", 1, 5, 5, 3, 3));
-        ranks.add(new Rank("equipe1", 12, 6, 5, 1, 12));
-        ranks.add(new Rank("equipe2", 12, 5, 5, 3, 24));
-        ranks.add(new Rank("equipe3", 12, 5, 5, 3, -25));
-        ranks.add(new Rank("equipe5", 2, 5, 5, 3, 10));
-        ranks.add(new Rank("equipe4", 2, 2, 1, 3, 10));
+        ranks.add(new Rank("equipe6", 9, 1, 5, 5, 3, 3));
+        ranks.add(new Rank("equipe1", 9, 12, 6, 5, 1, 12));
+        ranks.add(new Rank("equipe2", 9, 12, 5, 5, 3, 24));
+        ranks.add(new Rank("equipe3", 9, 12, 5, 5, 3, -25));
+        ranks.add(new Rank("equipe5", 9, 2, 5, 5, 3, 10));
+        ranks.add(new Rank("equipe4", 9, 2, 2, 1, 3, 10));
         db.SaveRanks(ranks, Tools.N1);
         ranks.clear();
-        ranks.add(new Rank("equipeN2N", 2, 1, 3, 4, -6));
+        ranks.add(new Rank("equipeN2N", 9, 2, 1, 3, 4, -6));
         db.SaveRanks(ranks, Tools.N2N);
         ranks.clear();
-        ranks.add(new Rank("equipeN2S", 32, 1, 10, 5, 96));
+        ranks.add(new Rank("equipeN2S", 9, 32, 1, 10, 5, 96));
         db.SaveRanks(ranks, Tools.N2S);
 
         db.SaveMatch(1, "N1", "2014-02-14", "Equipe1", "2-1", "Equipe2");

@@ -28,6 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String RANKS_TABLE = "ranks_table";
     private static final String POINTS_ATTRIBUT = "points_attribut";
+    private static final String DAYS_ATTRIBUT = "days_attribut";
     private static final String WIN_ATTRIBUT = "win_attribut";
     private static final String DRAW_ATTRIBUT = "draw_attribut";
     private static final String LOST_ATTRIBUT = "lost_attribut";
@@ -35,9 +36,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_RANKS_TABLE = "CREATE TABLE "
             + RANKS_TABLE + "(" + CLUB_ATTRIBUT + " TEXT NOT NULL,"
             + CHAMPIONSHIP_ATTRIBUT + " TEXT NOT NULL," + POINTS_ATTRIBUT
-            + " INTEGER NOT NULL," + WIN_ATTRIBUT + " INTEGER NOT NULL,"
-            + DRAW_ATTRIBUT + " INTEGER NOT NULL," + LOST_ATTRIBUT
-            + " INTEGER NOT NULL," + DIFF_ATTRIBUT + " INTEGER NOT NULL" + ")";
+            + " INTEGER NOT NULL," + DAYS_ATTRIBUT + " INTEGER NOT NULL,"
+            + WIN_ATTRIBUT + " INTEGER NOT NULL," + DRAW_ATTRIBUT
+            + " INTEGER NOT NULL," + LOST_ATTRIBUT + " INTEGER NOT NULL,"
+            + DIFF_ATTRIBUT + " INTEGER NOT NULL" + ")";
 
     private static final String SCHEDULE_N1_TABLE = "schedule_n1_table";
     private static final String SCHEDULE_N2N_TABLE = "schedule_n2n_table";
@@ -92,6 +94,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             value.put(CLUB_ATTRIBUT, rank.getClub());
             value.put(CHAMPIONSHIP_ATTRIBUT, division);
             value.put(POINTS_ATTRIBUT, rank.getPoints());
+            value.put(DAYS_ATTRIBUT, rank.getDays());
             value.put(WIN_ATTRIBUT, rank.getWin());
             value.put(DRAW_ATTRIBUT, rank.getDraw());
             value.put(LOST_ATTRIBUT, rank.getLost());
@@ -182,6 +185,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ranks.add(new Rank(
                         c.getString(c.getColumnIndex(CLUB_ATTRIBUT)), c
                                 .getInt(c.getColumnIndex(POINTS_ATTRIBUT)), c
+                                .getInt(c.getColumnIndex(DAYS_ATTRIBUT)), c
                                 .getInt(c.getColumnIndex(WIN_ATTRIBUT)), c
                                 .getInt(c.getColumnIndex(DRAW_ATTRIBUT)), c
                                 .getInt(c.getColumnIndex(LOST_ATTRIBUT)), c

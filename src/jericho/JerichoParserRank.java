@@ -33,7 +33,7 @@ public class JerichoParserRank {
                 || "".equalsIgnoreCase(tag.getAttributeValue("class"))) {
 
                 String team = "";
-                int rank = 0, points = 0, day = 0, win = 0, draw = 0,
+                int rank = 0, points = 0, days = 0, win = 0, draw = 0,
                         lost = 0, goalFor = 0, goalAnti = 0;
                 List<Element> children = elements.get( i ).getAllElements("td");
                 for(int j = 0; j < children.size(); ++j) {
@@ -41,7 +41,7 @@ public class JerichoParserRank {
                     case 0: rank = ParseInteger(children.get(j), index); break;
                     case 1: team = ParseString(children.get(j)); break;
                     case 2: points = ParseInteger(children.get(j)); break;
-                    case 3: day = Integer.parseInt(children.get(j).
+                    case 3: days = Integer.parseInt(children.get(j).
                             getContent().toString()); break;
                     case 4: win = Integer.parseInt(children.get(j).
                             getContent().toString()); break;
@@ -57,7 +57,7 @@ public class JerichoParserRank {
                     }
                 }
                 index = rank;
-                ranks.add(new Rank(team, points, win, draw, lost,
+                ranks.add(new Rank(team, points, days, win, draw, lost,
                         goalFor-goalAnti));
             }
         }
