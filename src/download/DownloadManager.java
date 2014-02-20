@@ -2,6 +2,7 @@ package download;
 
 import java.util.ArrayList;
 
+import jericho.JerichoParserFixture;
 import jericho.JerichoParserKicker;
 import jericho.JerichoParserRank;
 import fr.sport.rinkoid.DatabaseHelper;
@@ -10,6 +11,7 @@ import fr.sport.rinkoid.PageAdapter;
 import fr.sport.rinkoid.Tools;
 import fr.sport.rinkoid.kickers.Kicker;
 import fr.sport.rinkoid.ranks.Rank;
+import fr.sport.rinkoid.shedule.Match;
 import android.view.MenuItem;
 
 public class DownloadManager implements IStateChanged {
@@ -19,6 +21,7 @@ public class DownloadManager implements IStateChanged {
     private PageAdapter pageAdapter;
     private JerichoParserRank rankParser;
     private JerichoParserKicker kickerParser;
+    private JerichoParserFixture fixtureParser;
 
     public DownloadManager(DatabaseHelper database,PageAdapter pageAdapter) {
         this.championship = Tools.N1;
@@ -27,20 +30,23 @@ public class DownloadManager implements IStateChanged {
         this.pageAdapter = pageAdapter;
         this.rankParser = new JerichoParserRank();
         this.kickerParser = new JerichoParserKicker();
+        this.fixtureParser = new JerichoParserFixture();
     }
 
     public void Update(MenuItem menuItem) {
-        String[] parameters = {Tools.GetUrl(championship, page)};
+        final int day = pageAdapter.getCurrentDay();
+        String[] parameters = {Tools.GetUrl(championship, page),
+                page == Tools.SCHEDULE_PAGE ? String.valueOf(day) : "" };
         new AsyncHttpTask(menuItem) {
             @Override
             protected void onPostExecute(String result) {
                 super.onPostExecute(result);
-                resolve(result,page);
+                resolve(result, page, day);
             }
         }.execute( parameters );
     }
 
-    private void resolve(String result, int page) {
+    private void resolve(String result, int page, int day) {
         boolean valid = false;
         if(page == Tools.RANKS_PAGE) {
             ArrayList<Rank> ranks = new ArrayList<Rank>();
@@ -54,6 +60,13 @@ public class DownloadManager implements IStateChanged {
             kickerParser.Parse(result, kickers);
             if(!kickers.isEmpty()) {
                 database.SaveKicker(kickers, championship);
+                valid = true;
+            }
+        } else if(page == Tools.SCHEDULE_PAGE) {
+            ArrayList<Match> matchs = new ArrayList<Match>();
+            fixtureParser.Parse(result, matchs);
+            if(!matchs.isEmpty()) {
+                database.SaveMatchs(matchs, championship,day);
                 valid = true;
             }
         }

@@ -8,6 +8,7 @@ import fr.sport.rinkoid.bar.SpinnerNavItem;
 import fr.sport.rinkoid.bar.TitleNavigationAdapter;
 import fr.sport.rinkoid.kickers.Kicker;
 import fr.sport.rinkoid.ranks.Rank;
+import fr.sport.rinkoid.shedule.Match;
 
 import android.app.ActionBar;
 import android.content.res.Resources;
@@ -150,15 +151,28 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         ranks.add(new Rank("equipeN2S", 9, 32, 1, 10, 5, 96));
         db.SaveRanks(ranks, Tools.N2S);
 
-        db.SaveMatch(1, "N1", "2014-02-14", "Equipe1", "2-1", "Equipe2");
-        db.SaveMatch(1, "N1", "2014-02-14", "Equipe3", "5-5", "Equipe4");
-        db.SaveMatch(2, "N1", "2014-02-16", "Equipe1", "1-5", "Equipe3");
-        db.SaveMatch(2, "N1", "2014-02-16", "Equipe2", "", "Equipe4");
-        db.SaveMatch(3, "N1", "2014-02-18", "Equipe1", "", "Equipe2");
-        db.SaveMatch(3, "N1", "2014-02-18", "Equipe3", "", "Equipe4");
-        db.SaveMatch(1, "N2N", "2014-02-14", "EquipeA", "1-9", "EquipeB");
-        db.SaveMatch(2, "N2N", "2014-02-22", "EquipeB", "5-9", "EquipeA");
-        db.SaveMatch(1, "N2S", "2014-02-17", "EquipeD", "", "EquipeC");
+        ArrayList<Match> matchs = new ArrayList<Match>();
+        matchs.add(new Match("Equipe1", "2-1", "Equipe2", "2014-02-22"));
+        matchs.add(new Match("Equipe3", "5-5", "Equipe4", "2014-02-22"));
+        db.SaveMatchs(matchs, Tools.N1, 1);
+        matchs.clear();
+        matchs.add(new Match("Equipe1", "1-5", "Equipe3", "2014-02-22"));
+        matchs.add(new Match("Equipe2", "", "Equipe4", "2014-02-22"));
+        db.SaveMatchs(matchs, Tools.N1, 2);
+        matchs.clear();
+        matchs.add(new Match("Equipe1", "", "Equipe2", "2014-02-22"));
+        matchs.add(new Match("Equipe3", "", "Equipe4", "2014-02-22"));
+        db.SaveMatchs(matchs, Tools.N1, 3);
+        matchs.clear();
+        matchs.add(new Match("EquipeA", "1-9", "EquipeB", "2014-02-22"));
+        db.SaveMatchs(matchs, Tools.N2N, 1);
+        matchs.clear();
+        matchs.add(new Match("EquipeB", "5-9", "EquipeA", "2014-02-22"));
+        db.SaveMatchs(matchs, Tools.N2N, 2);
+        matchs.clear();
+        matchs.add(new Match("EquipeD", "", "EquipeC","2014-02-17"));
+        db.SaveMatchs(matchs, Tools.N2S, 1);
+        matchs.clear();
         // close database
     }
 }

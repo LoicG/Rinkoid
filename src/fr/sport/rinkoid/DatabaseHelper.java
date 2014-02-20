@@ -108,16 +108,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void SaveMatch(int day, String championship, String date,
-            String home, String score, String outside) {
-        ContentValues value = new ContentValues();
-        value.put(DAY_ATTRIBUT, day);
-        value.put(DATE_ATTRIBUT, date);
-        value.put(HOME_ATTRIBUT, home);
-        value.put(SCORE_ATTRIBUT, score);
-        value.put(OUTSIDE_ATTRIBUT, outside);
-        getWritableDatabase().insert(getScheduleTable(championship), null,
-                value);
+    public void SaveMatchs(ArrayList<Match> matchs, int championship, int day) {
+        SQLiteDatabase database = getWritableDatabase();
+        String table = getScheduleTable(Tools.ConvertChampionship(championship));
+        database.delete(table, DAY_ATTRIBUT + "='" + day + "'", null);
+        for (Match match : matchs) {
+            ContentValues value = new ContentValues();
+            value.put(DAY_ATTRIBUT, day);
+            value.put(DATE_ATTRIBUT, "");
+            value.put(HOME_ATTRIBUT, match.getHome());
+            value.put(SCORE_ATTRIBUT, match.getScore());
+            value.put(OUTSIDE_ATTRIBUT, match.getOutside());
+            database.insert(table, null, value);
+        }
     }
 
     private String getScheduleTable(String championship) {
@@ -127,19 +130,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return SCHEDULE_N2N_TABLE;
         else
             return SCHEDULE_N2S_TABLE;
-    }
-
-    public int GetScheduleCount(int championship) {
-        String query = "SELECT MAX(" + DAY_ATTRIBUT + ") FROM "
-                + getScheduleTable(Tools.ConvertChampionship(championship));
-        Cursor cursor = getReadableDatabase().rawQuery(query, null);
-        int count = 0;
-        if (cursor.moveToFirst()) {
-            do {
-                count = cursor.getInt(0);
-            } while (cursor.moveToNext());
-        }
-        return count;
     }
 
     public ArrayList<Match> GetMatchs(int championship, int day) {
@@ -153,7 +143,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 matchs.add(new Match(c.getString(c
                         .getColumnIndex(HOME_ATTRIBUT)), c.getString(c
                         .getColumnIndex(SCORE_ATTRIBUT)), c.getString(c
-                        .getColumnIndex(OUTSIDE_ATTRIBUT))));
+                        .getColumnIndex(OUTSIDE_ATTRIBUT)), c.getString(c
+                        .getColumnIndex(DATE_ATTRIBUT))));
             } while (c.moveToNext());
         }
         return matchs;

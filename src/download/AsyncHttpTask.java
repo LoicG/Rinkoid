@@ -21,7 +21,7 @@ public class AsyncHttpTask extends AsyncTask< String, Void, String > {
 
     @Override
     protected String doInBackground(String... params) {
-        return extractor.Extract(params[0],"");
+        return extractor.Extract(params[0], params[1]);
     }
 
     @Override

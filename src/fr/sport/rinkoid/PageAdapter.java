@@ -49,4 +49,8 @@ public class PageAdapter extends FragmentPagerAdapter implements IStateChanged {
     @Override
     public void onPageChanged(int page) {
     }
+
+    public int getCurrentDay() {
+        return schedule.getCurrentDay();
+    }
 }

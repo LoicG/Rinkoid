@@ -9,8 +9,8 @@ public class Tools {
     public static final int N2N = 1;
     public static final int N2S = 2;
 
-    public static String ConvertChampionship(int id) {
-        switch(id) {
+    public static String ConvertChampionship(int championship) {
+        switch(championship) {
         case N1:
             return "N1";
         case N2N:
@@ -22,40 +22,52 @@ public class Tools {
         }
     }
 
-    public static String GetKickersUrl(int id) {
-        switch(id) {
-        case N1:
-            return "http://stat.ffrs.asso.fr/stats/match/buteurs/1810";
-        case N2N:
-            return "http://stat.ffrs.asso.fr/stats/match/buteurs/1812";
-        case N2S:
-            return "http://stat.ffrs.asso.fr/stats/match/buteurs/1853";
-        default:
-            return "";
-        }
+    public static String GetKickersUrl(int championship) {
+        return GetUrl(championship, "buteurs");
     }
 
-    public static String GetRanksUrl(int id) {
-        switch(id) {
-        case N1:
-            return "http://stat.ffrs.asso.fr/stats/match/classement/1810";
-        case N2N:
-            return "http://stat.ffrs.asso.fr/stats/match/classement/1812";
-        case N2S:
-            return "http://stat.ffrs.asso.fr/stats/match/classement/1853";
-        default:
-            return "";
-        }
+    public static String GetRanksUrl(int championship) {
+        return GetUrl(championship, "classement");
     }
 
-    public static String GetUrl(int championship,int page) {
+    public static String GetUrl(int championship, int page) {
         switch(page) {
         case SCHEDULE_PAGE:
-            return "";
+            return GetSheduleUrl(championship);
         case RANKS_PAGE:
             return GetRanksUrl(championship);
         case KICKERS_PAGE:
             return GetKickersUrl(championship);
+        default:
+            return "";
+        }
+    }
+
+    public static int GetDaysCount(int championship) {
+        switch(championship) {
+        case N1:
+            return 22;
+        case N2N:
+            return 17;
+        case N2S:
+            return 18;
+        default:
+            return 0;
+        }
+    }
+
+    public static String GetSheduleUrl(int championship) {
+        return GetUrl(championship, "resultats");
+    }
+
+    private static String GetUrl(int championship, String type) {
+        switch(championship) {
+        case N1:
+            return "http://stat.ffrs.asso.fr/stats/match/"+ type +"/1810";
+        case N2N:
+            return "http://stat.ffrs.asso.fr/stats/match/"+ type +"/1812";
+        case N2S:
+            return "http://stat.ffrs.asso.fr/stats/match/"+ type +"/1853";
         default:
             return "";
         }

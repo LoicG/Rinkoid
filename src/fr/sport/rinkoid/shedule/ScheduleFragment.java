@@ -25,9 +25,9 @@ public class ScheduleFragment  extends Fragment implements OnClickListener,
     private static Spinner spinner;
     private int currentChampionship_;
 
-    private ArrayList<String> generateDays(int count){
+    private ArrayList<String> generateDays(int championship){
         ArrayList<String> items = new ArrayList<String>();
-        for(int i = 0; i < count; ++i) {
+        for(int i = 0; i < Tools.GetDaysCount(championship); ++i) {
             if( i== 0) {
                 items.add("1ère journée");
             }
@@ -55,7 +55,7 @@ public class ScheduleFragment  extends Fragment implements OnClickListener,
         ArrayAdapter<String> daysAdapter = new ArrayAdapter<String>(
                 getActivity(), 
                 android.R.layout.simple_spinner_item,
-                generateDays(db.GetScheduleCount(currentChampionship_)));
+                generateDays(currentChampionship_));
                 daysAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); 
         spinner.setAdapter(daysAdapter);
         spinner.setOnItemSelectedListener(this);
@@ -81,11 +81,11 @@ public class ScheduleFragment  extends Fragment implements OnClickListener,
             int position = spinner.getSelectedItemPosition();
             switch(view.getId()) {
                 case R.id.next:
-                    if( ( spinner.getCount() - 1 - position ) > 0 )
+                    if((spinner.getCount() - 1 - position) > 0)
                         spinner.setSelection(position+1);
                 break;
                 case R.id.prev:
-                    if( position - 1 >= 0 )
+                    if(position - 1 >= 0)
                         spinner.setSelection(position-1);
                 break;
             }
@@ -105,20 +105,23 @@ public class ScheduleFragment  extends Fragment implements OnClickListener,
     @Override
     public void onChampionshipChanged(int championship) {
         currentChampionship_ = championship;
-        if( spinner != null ) {
+        if(spinner != null) {
             ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner.getAdapter();
             if( adapter != null ) {
                 adapter.clear();
-                adapter.addAll(generateDays(new DatabaseHelper(getActivity()).
-                        GetScheduleCount(currentChampionship_)));
+                adapter.addAll(generateDays(currentChampionship_));
                 adapter.notifyDataSetChanged();
             }
         }
-        UpdateListView(1);
+        UpdateListView(getCurrentDay());
     }
 
     @Override
     public void onPageChanged(int page) {
+    }
+
+    public int getCurrentDay() {
+        return spinner == null ? 1 : spinner.getSelectedItemPosition() +1;
     }
 }
 
