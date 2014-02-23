@@ -53,10 +53,10 @@ public class ScheduleFragment  extends Fragment implements OnClickListener,
 
         spinner = (Spinner) view.findViewById(R.id.days);
         ArrayAdapter<String> daysAdapter = new ArrayAdapter<String>(
-                getActivity(), 
-                android.R.layout.simple_spinner_item,
+                getActivity(),
+                R.layout.spinner_center_item,
                 generateDays(currentChampionship_));
-                daysAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); 
+                daysAdapter.setDropDownViewResource(R.layout.spinner_center_item);
         spinner.setAdapter(daysAdapter);
         spinner.setOnItemSelectedListener(this);
 
