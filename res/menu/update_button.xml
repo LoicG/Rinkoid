@@ -2,5 +2,5 @@
     <item android:id="@+id/menu_load"
         android:icon="@drawable/refresh"
         android:showAsAction="always"
-        android:title="Load"/>
+        android:title="@string/update"/>
 </menu> 
