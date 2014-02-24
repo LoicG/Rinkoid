@@ -58,11 +58,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         tabHost = (TabHost) findViewById(android.R.id.tabhost);
         tabHost.setup();
         AddTab(tabHost, tabHost.newTabSpec("scheduleTab").setIndicator(
-            ressources.getString(R.string.schedule)));
+            null, ressources.getDrawable(R.drawable.ic_action_go_to_today)));
         AddTab(tabHost, tabHost.newTabSpec("rankingTab").setIndicator(
-            ressources.getString(R.string.ranking)));
+            null, ressources.getDrawable(R.drawable.ic_action_import_export)));
         AddTab(tabHost, tabHost.newTabSpec("kickersTab").setIndicator(
-            ressources.getString(R.string.kickers)));
+            null, ressources.getDrawable(R.drawable.ic_action_not_important)));
         tabHost.setOnTabChangedListener(this);
 
         pageAdapter = new PageAdapter(getSupportFragmentManager());
