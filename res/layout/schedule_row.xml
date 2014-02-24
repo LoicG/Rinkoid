@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:paddingLeft="10sp"
+             android:paddingRight="10sp">
     <TextView android:id="@+id/home"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:gravity="right"/>
+              android:layout_weight="1"
+              android:gravity="left"/>
     <TextView android:id="@+id/score"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:gravity="right"/>
+              android:gravity="center"/>
     <TextView android:id="@+id/outside"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
+              android:layout_weight="1"
               android:gravity="right"/>
-</LinearLayout>
+</TableLayout>
