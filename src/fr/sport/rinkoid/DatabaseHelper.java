@@ -77,49 +77,58 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void SaveKicker(ArrayList<Kicker> kickers, int championship) {
         String division = Tools.ConvertChampionship(championship);
         SQLiteDatabase database = getWritableDatabase();
-        database.delete(KICKERS_TABLE, CHAMPIONSHIP_ATTRIBUT + "='" + division
-                + "'", null);
-        for(Kicker kicker : kickers) {
-            ContentValues value = new ContentValues();
-            value.put(NAME_ATTRIBUT, kicker.getName());
-            value.put(CHAMPIONSHIP_ATTRIBUT, division);
-            value.put(CLUB_ATTRIBUT, kicker.getClub());
-            value.put(GOALS_ATTRIBUT, kicker.getGoals());
-            database.insert(KICKERS_TABLE, null, value);
+        if(database != null) {
+            database.delete(KICKERS_TABLE, CHAMPIONSHIP_ATTRIBUT + "='" + division
+                    + "'", null);
+            for(Kicker kicker : kickers) {
+                ContentValues value = new ContentValues();
+                value.put(NAME_ATTRIBUT, kicker.getName());
+                value.put(CHAMPIONSHIP_ATTRIBUT, division);
+                value.put(CLUB_ATTRIBUT, kicker.getClub());
+                value.put(GOALS_ATTRIBUT, kicker.getGoals());
+                database.insert(KICKERS_TABLE, null, value);
+            }
+            database.close();
         }
     }
 
     public void SaveRanks(ArrayList<Rank> ranks, int championship) {
         String division = Tools.ConvertChampionship(championship);
         SQLiteDatabase database = getWritableDatabase();
-        database.delete(RANKS_TABLE, CHAMPIONSHIP_ATTRIBUT + "='" + division
-                + "'", null);
-        for (Rank rank : ranks) {
-            ContentValues value = new ContentValues();
-            value.put(CLUB_ATTRIBUT, rank.getClub());
-            value.put(CHAMPIONSHIP_ATTRIBUT, division);
-            value.put(POINTS_ATTRIBUT, rank.getPoints());
-            value.put(DAYS_ATTRIBUT, rank.getDays());
-            value.put(WIN_ATTRIBUT, rank.getWin());
-            value.put(DRAW_ATTRIBUT, rank.getDraw());
-            value.put(LOST_ATTRIBUT, rank.getLost());
-            value.put(DIFF_ATTRIBUT, rank.getDiff());
-            database.insert(RANKS_TABLE, null, value);
+        if(database != null) {
+            database.delete(RANKS_TABLE, CHAMPIONSHIP_ATTRIBUT + "='" + division
+                    + "'", null);
+            for (Rank rank : ranks) {
+                ContentValues value = new ContentValues();
+                value.put(CLUB_ATTRIBUT, rank.getClub());
+                value.put(CHAMPIONSHIP_ATTRIBUT, division);
+                value.put(POINTS_ATTRIBUT, rank.getPoints());
+                value.put(DAYS_ATTRIBUT, rank.getDays());
+                value.put(WIN_ATTRIBUT, rank.getWin());
+                value.put(DRAW_ATTRIBUT, rank.getDraw());
+                value.put(LOST_ATTRIBUT, rank.getLost());
+                value.put(DIFF_ATTRIBUT, rank.getDiff());
+                database.insert(RANKS_TABLE, null, value);
+            }
+            database.close();
         }
     }
 
     public void SaveMatchs(ArrayList<Match> matchs, int championship, int day) {
         SQLiteDatabase database = getWritableDatabase();
-        String table = getScheduleTable(Tools.ConvertChampionship(championship));
-        database.delete(table, DAY_ATTRIBUT + "='" + day + "'", null);
-        for (Match match : matchs) {
-            ContentValues value = new ContentValues();
-            value.put(DAY_ATTRIBUT, day);
-            value.put(DATE_ATTRIBUT, "");
-            value.put(HOME_ATTRIBUT, match.getHome());
-            value.put(SCORE_ATTRIBUT, match.getScore());
-            value.put(OUTSIDE_ATTRIBUT, match.getOutside());
-            database.insert(table, null, value);
+        if(database != null) {
+            String table = getScheduleTable(Tools.ConvertChampionship(championship));
+            database.delete(table, DAY_ATTRIBUT + "='" + day + "'", null);
+            for (Match match : matchs) {
+                ContentValues value = new ContentValues();
+                value.put(DAY_ATTRIBUT, day);
+                value.put(DATE_ATTRIBUT, "");
+                value.put(HOME_ATTRIBUT, match.getHome());
+                value.put(SCORE_ATTRIBUT, match.getScore());
+                value.put(OUTSIDE_ATTRIBUT, match.getOutside());
+                database.insert(table, null, value);
+            }
+            database.close();
         }
     }
 
@@ -137,15 +146,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM "
                 + getScheduleTable(Tools.ConvertChampionship(championship))
                 + " WHERE " + DAY_ATTRIBUT + " = '" + day + "'";
-        Cursor c = getReadableDatabase().rawQuery(query, null);
-        if (c.moveToFirst()) {
-            do {
-                matchs.add(new Match(c.getString(c
-                        .getColumnIndex(HOME_ATTRIBUT)), c.getString(c
-                        .getColumnIndex(SCORE_ATTRIBUT)), c.getString(c
-                        .getColumnIndex(OUTSIDE_ATTRIBUT)), c.getString(c
-                        .getColumnIndex(DATE_ATTRIBUT))));
-            } while (c.moveToNext());
+        SQLiteDatabase database = getReadableDatabase();
+        if(database != null) {
+            Cursor c = database.rawQuery(query, null);
+            if (c.moveToFirst()) {
+                do {
+                    matchs.add(new Match(c.getString(c
+                            .getColumnIndex(HOME_ATTRIBUT)), c.getString(c
+                            .getColumnIndex(SCORE_ATTRIBUT)), c.getString(c
+                            .getColumnIndex(OUTSIDE_ATTRIBUT)), c.getString(c
+                            .getColumnIndex(DATE_ATTRIBUT))));
+                } while (c.moveToNext());
+            }
+            c.close();
+            database.close();
         }
         return matchs;
     }
@@ -156,14 +170,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + CHAMPIONSHIP_ATTRIBUT + " = '"
                 + Tools.ConvertChampionship(championship) + "'" + " ORDER BY "
                 + GOALS_ATTRIBUT + " DESC, " + NAME_ATTRIBUT + " ASC";
-        Cursor c = getReadableDatabase().rawQuery(query, null);
-        if (c.moveToFirst()) {
-            do {
-                kickers.add(new Kicker(c.getString(c
-                        .getColumnIndex(NAME_ATTRIBUT)), c.getInt(c
-                        .getColumnIndex(GOALS_ATTRIBUT)), c.getString(c
-                        .getColumnIndex(CLUB_ATTRIBUT))));
-            } while (c.moveToNext());
+        SQLiteDatabase database = getReadableDatabase();
+        if(database != null) {
+            Cursor c = database.rawQuery(query, null);
+            if (c.moveToFirst()) {
+                do {
+                    kickers.add(new Kicker(c.getString(c
+                            .getColumnIndex(NAME_ATTRIBUT)), c.getInt(c
+                            .getColumnIndex(GOALS_ATTRIBUT)), c.getString(c
+                            .getColumnIndex(CLUB_ATTRIBUT))));
+                } while (c.moveToNext());
+            }
+            c.close();
+            database.close();
         }
         return kickers;
     }
@@ -175,27 +194,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + Tools.ConvertChampionship(championship) + "'" + " ORDER BY "
                 + POINTS_ATTRIBUT + " DESC, " + DIFF_ATTRIBUT + " DESC, "
                 + CLUB_ATTRIBUT + " ASC";
-        Cursor c = getReadableDatabase().rawQuery(query, null);
-        if (c.moveToFirst()) {
-            do {
-                ranks.add(new Rank(
-                        c.getString(c.getColumnIndex(CLUB_ATTRIBUT)), c
-                                .getInt(c.getColumnIndex(POINTS_ATTRIBUT)), c
-                                .getInt(c.getColumnIndex(DAYS_ATTRIBUT)), c
-                                .getInt(c.getColumnIndex(WIN_ATTRIBUT)), c
-                                .getInt(c.getColumnIndex(DRAW_ATTRIBUT)), c
-                                .getInt(c.getColumnIndex(LOST_ATTRIBUT)), c
-                                .getInt(c.getColumnIndex(DIFF_ATTRIBUT))));
-            } while (c.moveToNext());
+        SQLiteDatabase database = getReadableDatabase();
+        if(database != null) {
+            Cursor c = database.rawQuery(query, null);
+            if (c.moveToFirst()) {
+                do {
+                    ranks.add(new Rank(
+                            c.getString(c.getColumnIndex(CLUB_ATTRIBUT)), c
+                                    .getInt(c.getColumnIndex(POINTS_ATTRIBUT)), c
+                                    .getInt(c.getColumnIndex(DAYS_ATTRIBUT)), c
+                                    .getInt(c.getColumnIndex(WIN_ATTRIBUT)), c
+                                    .getInt(c.getColumnIndex(DRAW_ATTRIBUT)), c
+                                    .getInt(c.getColumnIndex(LOST_ATTRIBUT)), c
+                                    .getInt(c.getColumnIndex(DIFF_ATTRIBUT))));
+                } while (c.moveToNext());
+            }
+            c.close();
+            database.close();
         }
         return ranks;
     }
 
     public void Clear() {
-        getWritableDatabase().delete(KICKERS_TABLE, "", null);
-        getWritableDatabase().delete(RANKS_TABLE, "", null);
-        getWritableDatabase().delete(SCHEDULE_N1_TABLE, "", null);
-        getWritableDatabase().delete(SCHEDULE_N2N_TABLE, "", null);
-        getWritableDatabase().delete(SCHEDULE_N2S_TABLE, "", null);
+        SQLiteDatabase database = getWritableDatabase();
+        database.delete(KICKERS_TABLE, "", null);
+        database.delete(RANKS_TABLE, "", null);
+        database.delete(SCHEDULE_N1_TABLE, "", null);
+        database.delete(SCHEDULE_N2N_TABLE, "", null);
+        database.delete(SCHEDULE_N2S_TABLE, "", null);
+        database.close();
     }
 }
