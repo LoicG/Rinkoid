@@ -42,7 +42,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         GenerateDataTest(db);
 
         actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
         Resources ressources = getResources();
