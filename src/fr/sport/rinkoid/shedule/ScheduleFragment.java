@@ -42,8 +42,9 @@ public class ScheduleFragment  extends Fragment implements OnClickListener,
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        DatabaseHelper db = new DatabaseHelper(getActivity());
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        DatabaseHelper db = DatabaseHelper.getInstance(getActivity());
         View view = inflater.inflate(R.layout.schedule, container, false);
 
         listview = (ListView) view.findViewById(R.id.listView);
@@ -71,7 +72,8 @@ public class ScheduleFragment  extends Fragment implements OnClickListener,
         if( listview != null ) {
             ScheduleAdapter adapter = (ScheduleAdapter) listview.getAdapter();
             if(adapter!=null)
-                adapter.Update(new DatabaseHelper(getActivity()).GetMatchs(currentChampionship_,day));
+                adapter.Update(DatabaseHelper.getInstance(getActivity()).
+                        GetMatchs(currentChampionship_,day));
         }
     }
 

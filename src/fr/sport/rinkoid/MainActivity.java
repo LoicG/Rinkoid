@@ -31,16 +31,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
     PageAdapter pageAdapter;
     private ViewPager viewPager;
     private TabHost tabHost;
-    private DatabaseHelper db;
     private DownloadManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        db = new DatabaseHelper(getApplicationContext());
+        DatabaseHelper db = DatabaseHelper.getInstance(getApplicationContext());
         db.Clear();
-        GenerateDataTest();
+        GenerateDataTest(db);
 
         actionBar = getActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
@@ -121,7 +120,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
       return true;
     }
 
-    private void GenerateDataTest() {
+    private void GenerateDataTest(DatabaseHelper db) {
         ArrayList<Kicker> kickers = new ArrayList<Kicker>();
         kickers.add(new Kicker("Bernard", 10, "eag"));
         kickers.add(new Kicker("Albert", 10, "eag"));

@@ -23,7 +23,7 @@ public class KickersFragment extends Fragment implements IStateChanged {
         listview = (ListView) view.findViewById(R.id.listView);
 
         KickersAdapter adapter = new KickersAdapter(getActivity(),
-                new DatabaseHelper(getActivity()).GetKickers(Tools.N1));
+                DatabaseHelper.getInstance(getActivity()).GetKickers(Tools.N1));
         listview.setAdapter(adapter);
         return view;
     }
@@ -33,7 +33,7 @@ public class KickersFragment extends Fragment implements IStateChanged {
         if( listview != null ) {
             KickersAdapter adapter = (KickersAdapter) listview.getAdapter();
             if(adapter!=null)
-                adapter.Update(new DatabaseHelper(getActivity()).
+                adapter.Update(DatabaseHelper.getInstance(getActivity()).
                         GetKickers(championship));
         }
     }

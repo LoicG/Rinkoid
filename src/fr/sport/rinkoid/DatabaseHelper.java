@@ -57,7 +57,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + OUTSIDE_ATTRIBUT + " TEXT NOT NULL" + ")";
     }
 
-    public DatabaseHelper(Context context) {
+    private static DatabaseHelper mInstance = null;
+ 
+    public static DatabaseHelper getInstance(Context ctx) {
+        if(mInstance == null) {
+            mInstance = new DatabaseHelper(ctx.getApplicationContext());
+        }
+        return mInstance;
+    }
+
+    private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

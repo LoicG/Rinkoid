@@ -23,7 +23,7 @@ public class RanksFragment extends Fragment implements IStateChanged {
         View view = inflater.inflate(R.layout.listview, container, false);
         listview = (ListView) view.findViewById(R.id.listView);
         RanksAdapter adapter = new RanksAdapter(getActivity(),
-                new DatabaseHelper(getActivity()).GetRanks(Tools.N1));
+                DatabaseHelper.getInstance(getActivity()).GetRanks(Tools.N1));
         listview.setAdapter(adapter);
         return view;
     }
@@ -33,7 +33,7 @@ public class RanksFragment extends Fragment implements IStateChanged {
         if( listview != null ) {
             RanksAdapter adapter = (RanksAdapter) listview.getAdapter();
             if(adapter!=null)
-                adapter.Update(new DatabaseHelper(getActivity()).GetRanks(championship));
+                adapter.Update(DatabaseHelper.getInstance(getActivity()).GetRanks(championship));
         }
     }
 
