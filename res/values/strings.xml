@@ -8,4 +8,9 @@
     <string name="ranking">Classement</string>
     <string name="kickers">Buteurs</string>
     <string name="update">Mise à jour</string>
+    <string name="goals">Buts</string>
+    <string name="days">J.</string>
+    <string name="points">Pts</string>
+    <string name="serie">G/N/P</string>
+    <string name="diff">+/-</string>
 </resources>

@@ -175,6 +175,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public ArrayList<Kicker> GetKickers(int championship) {
         ArrayList<Kicker> kickers = new ArrayList<Kicker>();
+        kickers.add(new Kicker("", 0, ""));
         String query = "SELECT * FROM " + KICKERS_TABLE + " WHERE "
                 + CHAMPIONSHIP_ATTRIBUT + " = '"
                 + Tools.ConvertChampionship(championship) + "'" + " ORDER BY "
@@ -198,6 +199,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public ArrayList<Rank> GetRanks(int championship) {
         ArrayList<Rank> ranks = new ArrayList<Rank>();
+        ranks.add(new Rank("", 0, 0, 0, 0, 0, 0));
         String query = "SELECT * FROM " + RANKS_TABLE + " WHERE "
                 + CHAMPIONSHIP_ATTRIBUT + " = '"
                 + Tools.ConvertChampionship(championship) + "'" + " ORDER BY "

@@ -25,17 +25,21 @@ public class RanksAdapter extends ArrayAdapter<Rank> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.rank_row, parent, false);
-        Rank rank = items.get(position);
-        SetText(R.id.rank, rowView, String.valueOf(position+1));
-        SetText(R.id.club, rowView, rank.getClub());
-        SetText(R.id.points, rowView, String.valueOf(rank.getPoints()));
-        SetText(R.id.days, rowView, String.valueOf(rank.getDays()));
-        SetText(R.id.serie, rowView, String.valueOf(rank.getWin()) + "/" +
-                String.valueOf(rank.getDraw()) + "/" +
-                String.valueOf(rank.getLost()) );
-        SetText(R.id.diff, rowView, String.valueOf(rank.getDiff()));
-        return rowView;
+        if(position==0) {
+            return inflater.inflate(R.layout.rank_header, parent, false);
+        } else {
+            View rowView = inflater.inflate(R.layout.rank_row, parent, false);
+            Rank rank = items.get(position);
+            SetText(R.id.rank, rowView, String.valueOf(position));
+            SetText(R.id.club, rowView, rank.getClub());
+            SetText(R.id.points, rowView, String.valueOf(rank.getPoints()));
+            SetText(R.id.days, rowView, String.valueOf(rank.getDays()));
+            SetText(R.id.serie, rowView, String.valueOf(rank.getWin()) + "/" +
+                    String.valueOf(rank.getDraw()) + "/" +
+                    String.valueOf(rank.getLost()) );
+            SetText(R.id.diff, rowView, String.valueOf(rank.getDiff()));
+            return rowView;
+        }
     }
 
     private void SetText( int id, View rowView, String text ) {
