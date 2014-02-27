@@ -8,6 +8,7 @@ public class Tools {
     public static final int N1 = 0;
     public static final int N2N = 1;
     public static final int N2S = 2;
+    public static final int CHAMPIONSHIP_COUNT = 3;
 
     public static String ConvertChampionship(int championship) {
         switch(championship) {

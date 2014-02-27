@@ -1,8 +1,10 @@
 package fr.sport.rinkoid;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import download.DownloadManager;
+import download.InitialDownloadManager;
 
 import fr.sport.rinkoid.bar.SpinnerNavItem;
 import fr.sport.rinkoid.bar.TitleNavigationAdapter;
@@ -32,14 +34,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
     private ViewPager viewPager;
     private TabHost tabHost;
     private DownloadManager manager;
-
+    private InitialDownloadManager manager2;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DatabaseHelper db = DatabaseHelper.getInstance(getApplicationContext());
-        db.Clear();
-        GenerateDataTest(db);
 
         actionBar = getActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
@@ -68,6 +69,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         viewPager.setAdapter(pageAdapter);
         viewPager.setOnPageChangeListener(this);
         manager = new DownloadManager(db,pageAdapter);
+        manager2 = new InitialDownloadManager(this);
+        db.Clear();
+       // GenerateDataTest(db);
+        Initialize(db);
+    }
+
+    private void Initialize(DatabaseHelper db) {
+        LinkedList<Integer> championship = db.NeedFirstUpdate();
+        if( !championship.isEmpty() ) { 
+            manager2.Initialize(championship);
+        }
     }
 
     private void AddTab(TabHost tabHost, TabHost.TabSpec tabSpec) {

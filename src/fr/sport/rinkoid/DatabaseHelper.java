@@ -1,6 +1,7 @@
 package fr.sport.rinkoid;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import fr.sport.rinkoid.kickers.Kicker;
 import fr.sport.rinkoid.ranks.Rank;
@@ -224,6 +225,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             database.close();
         }
         return ranks;
+    }
+
+    private int Count(String query) {
+        SQLiteDatabase database = getReadableDatabase();
+        if(database!=null) {
+            Cursor c = database.rawQuery(query, null);
+            //c.close();
+            //database.close();
+            return c.getCount();
+        }
+        return 0;
+    }
+
+    private boolean IsEmpty(int championship) {
+        String query = "SELECT  * FROM " +
+        getScheduleTable(Tools.ConvertChampionship(championship));
+        if(Count(query) == 0)
+            return  true;
+        query = "SELECT * FROM " + RANKS_TABLE + " WHERE "
+                + CHAMPIONSHIP_ATTRIBUT + " = '"
+                + Tools.ConvertChampionship(championship);
+        return Count(query) == 0;
+    }
+
+    public LinkedList<Integer> NeedFirstUpdate() {
+        LinkedList<Integer> championship = new LinkedList<Integer>();
+        for(int i = 0; i< Tools.CHAMPIONSHIP_COUNT; ++i) {
+            if(IsEmpty(i))
+                championship.add(i);
+        }
+        return championship;
     }
 
     public void Clear() {
