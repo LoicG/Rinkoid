@@ -11,6 +11,8 @@
     <string name="goals">Buts</string>
     <string name="days">J.</string>
     <string name="points">Pts</string>
-    <string name="serie">G/N/P</string>
+    <string name="serie">V/N/P</string>
     <string name="diff">+/-</string>
+    <string name="download">Récupération des données</string>
+    <string name="downloadText">Téléchargement...</string>
 </resources>

@@ -7,6 +7,7 @@ import jericho.JerichoParserFixture;
 import jericho.JerichoParserRank;
 
 import fr.sport.rinkoid.DatabaseHelper;
+import fr.sport.rinkoid.PageAdapter;
 import fr.sport.rinkoid.R;
 import fr.sport.rinkoid.Tools;
 import fr.sport.rinkoid.ranks.Rank;
@@ -14,6 +15,7 @@ import fr.sport.rinkoid.shedule.Match;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 
 public class InitialDownloadManager {
@@ -25,14 +27,17 @@ public class InitialDownloadManager {
     private int current;
     private int championship;
     private Context context;
+    private PageAdapter pageAdapter;
 
-    public InitialDownloadManager(Context context) {
+    public InitialDownloadManager(Context context,PageAdapter pageAdapter) {
         this.context = context;
         this.rankParser = new JerichoParserRank();
         this.fixtureParser = new JerichoParserFixture();
+        this.pageAdapter = pageAdapter;
+        Resources ressources = context.getResources();
         progressDialog = new ProgressDialog(context);
-        progressDialog.setTitle("In progress...");
-        progressDialog.setMessage("Loading...");
+        progressDialog.setTitle(ressources.getString(R.string.downloadText));
+        progressDialog.setMessage(ressources.getString(R.string.download));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setIndeterminate(false);
         progressDialog.setMax(100);
@@ -50,9 +55,19 @@ public class InitialDownloadManager {
         Download(new ArrayList<String>());
     }
 
-  
     private void Download(ArrayList<String> results) {
-        
+        Parse(results);
+        if(championships.isEmpty()) {
+            progressDialog.dismiss();
+            pageAdapter.onChampionshipChanged(Tools.N1);
+        } else {
+            championship = championships.removeFirst();
+            Integer[] parameters = { championship };
+            new AsyncHttpTask().execute( parameters );
+        }
+    }
+
+    private void Parse(ArrayList<String> results) {
         if(!results.isEmpty()) {
             for(int i = 0; i < results.size() - 1; ++i) {
                 ArrayList<Match> matchs = new ArrayList<Match>();
@@ -67,20 +82,12 @@ public class InitialDownloadManager {
                 DatabaseHelper.getInstance(context).SaveRanks(ranks, championship);
             }
         }
-        
-        if(championships.isEmpty()) {
-            progressDialog.dismiss();
-        } else {
-            championship = championships.removeFirst();
-            Integer[] parameters = { championship };
-            new AsyncHttpTask2().execute( parameters );
-        }
     }
 
-    private class AsyncHttpTask2 extends AsyncTask<Integer, Integer, ArrayList<String>> {
+    private class AsyncHttpTask extends AsyncTask<Integer, Integer, ArrayList<String>> {
         private HtmlExtractor extractor;
 
-        public AsyncHttpTask2() {
+        public AsyncHttpTask() {
             this.extractor = new HtmlExtractor();
         }
 
@@ -93,7 +100,7 @@ public class InitialDownloadManager {
         protected ArrayList<String> doInBackground(Integer... params) {
             ArrayList<String> result = new ArrayList<String>();
             String url = Tools.GetUrl(params[0], Tools.SCHEDULE_PAGE);
-            for(int i = 0; i < Tools.GetDaysCount(params[0]); ++i) {
+            for(int i = 0; i <= Tools.GetDaysCount(params[0]); ++i) {
                 result.add(extractor.Extract(url, String.valueOf(i)));
                 publishProgress(current++);
             }

@@ -231,9 +231,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = getReadableDatabase();
         if(database!=null) {
             Cursor c = database.rawQuery(query, null);
-            //c.close();
-            //database.close();
-            return c.getCount();
+            int count = c.getCount();
+            c.close();
+            database.close();
+            return count;
         }
         return 0;
     }
@@ -245,7 +246,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return  true;
         query = "SELECT * FROM " + RANKS_TABLE + " WHERE "
                 + CHAMPIONSHIP_ATTRIBUT + " = '"
-                + Tools.ConvertChampionship(championship);
+                + Tools.ConvertChampionship(championship) +"'";
         return Count(query) == 0;
     }
 

@@ -34,8 +34,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
     private ViewPager viewPager;
     private TabHost tabHost;
     private DownloadManager manager;
-    private InitialDownloadManager manager2;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,16 +68,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         viewPager.setAdapter(pageAdapter);
         viewPager.setOnPageChangeListener(this);
         manager = new DownloadManager(db,pageAdapter);
-        manager2 = new InitialDownloadManager(this);
-        db.Clear();
-       // GenerateDataTest(db);
+        // db.Clear();
+        // GenerateDataTest(db);
         Initialize(db);
     }
 
     private void Initialize(DatabaseHelper db) {
         LinkedList<Integer> championship = db.NeedFirstUpdate();
         if( !championship.isEmpty() ) { 
-            manager2.Initialize(championship);
+            new InitialDownloadManager(this,pageAdapter).Initialize(championship);
         }
     }
 
@@ -184,7 +182,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         matchs.add(new Match("EquipeD", "", "EquipeC","2014-02-17"));
         db.SaveMatchs(matchs, Tools.N2S, 1);
         matchs.clear();
-        // close database
     }
 }
 
