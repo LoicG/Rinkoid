@@ -38,7 +38,7 @@ public class ScheduleFragment  extends Fragment implements OnClickListener,
     }
 
     public ScheduleFragment() {
-        this.currentChampionship_ = Tools.N1;
+        this.currentChampionship_ = -1;
     }
 
     @Override
@@ -106,6 +106,7 @@ public class ScheduleFragment  extends Fragment implements OnClickListener,
 
     @Override
     public void onChampionshipChanged(int championship) {
+        boolean changed = currentChampionship_ != championship;
         currentChampionship_ = championship;
         if(spinner != null) {
             ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner.getAdapter();
@@ -114,8 +115,14 @@ public class ScheduleFragment  extends Fragment implements OnClickListener,
                 adapter.addAll(generateDays(currentChampionship_));
                 adapter.notifyDataSetChanged();
             }
-        }
-        UpdateListView(getCurrentDay());
+
+            int count = ( changed ? DatabaseHelper.getInstance(getActivity()).
+                    GetCurrentDay(currentChampionship_) : getCurrentDay() ) - 1;
+            if( count == spinner.getSelectedItemPosition() )
+                UpdateListView(count+1);
+            else
+                spinner.setSelection(count);
+       }
     }
 
     @Override
@@ -123,7 +130,7 @@ public class ScheduleFragment  extends Fragment implements OnClickListener,
     }
 
     public int getCurrentDay() {
-        return spinner == null ? 1 : spinner.getSelectedItemPosition() +1;
+        return spinner == null ? 1 : spinner.getSelectedItemPosition() + 1;
     }
 }
 

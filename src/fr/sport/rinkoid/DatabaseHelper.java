@@ -269,6 +269,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return championship;
     }
 
+    public int GetCurrentDay(int championship) {
+        String query = "SELECT * FROM " +
+                getScheduleTable(Tools.ConvertChampionship(championship))
+                + " ORDER BY ABS( strftime('%s','now') - strftime('%s'," + DATE_ATTRIBUT + ") )";
+        SQLiteDatabase database = getReadableDatabase();
+        int count = 1;
+        if(database != null) {
+            Cursor c = database.rawQuery(query, null);
+            if (c.moveToFirst()) {
+                do {
+                    count = c.getInt(c.getColumnIndex(DAY_ATTRIBUT));
+                    break;
+                } while (c.moveToNext());
+            }
+            c.close();
+            database.close();
+        }
+        return count;
+    }
+
     public void Clear() {
         SQLiteDatabase database = getWritableDatabase();
         database.delete(KICKERS_TABLE, "", null);
