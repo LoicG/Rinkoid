@@ -124,6 +124,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    private String FormatDate(String date) {
+        if(date != "") {
+            String[] splits = date.split("/");
+            if(splits.length == 3) {
+                return splits[2] + "-" + splits[1] + "-" + splits[0];
+            }
+        }
+        return "";
+    }
+
     public void SaveMatchs(ArrayList<Match> matchs, int championship, int day) {
         SQLiteDatabase database = getWritableDatabase();
         if(database != null) {
@@ -132,7 +142,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             for (Match match : matchs) {
                 ContentValues value = new ContentValues();
                 value.put(DAY_ATTRIBUT, day);
-                value.put(DATE_ATTRIBUT, "");
+                value.put(DATE_ATTRIBUT, FormatDate(match.getDate()));
                 value.put(HOME_ATTRIBUT, match.getHome());
                 value.put(SCORE_ATTRIBUT, match.getScore());
                 value.put(OUTSIDE_ATTRIBUT, match.getOutside());
