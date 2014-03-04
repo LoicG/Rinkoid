@@ -3,8 +3,6 @@ package jericho;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.util.Log;
-
 import fr.sport.rinkoid.kickers.Kicker;
 
 import net.htmlparser.jericho.Element;
@@ -50,8 +48,6 @@ public class JerichoParserKicker
                     }
                 }
                 index = rank;
-                Log.d("name",name);
-                Log.d("team",team);
                 kickers.add(new Kicker(name, goals, team));
             }
         }
