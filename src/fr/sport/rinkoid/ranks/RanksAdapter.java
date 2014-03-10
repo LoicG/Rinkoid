@@ -15,10 +15,10 @@ public class RanksAdapter extends ArrayAdapter<Rank> {
     private final Context context;
     private ArrayList<Rank> items;
 
-    public RanksAdapter(Context context, ArrayList<Rank> items) {
-        super(context, R.layout.rank_row, items);
+    public RanksAdapter(Context context) {
+        super(context, R.layout.rank_row);
         this.context = context;
-        this.items = items;
+        this.items = new ArrayList<Rank>();
     }
 
     @Override

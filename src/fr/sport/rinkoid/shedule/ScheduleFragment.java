@@ -48,9 +48,7 @@ public class ScheduleFragment  extends Fragment implements OnClickListener,
         View view = inflater.inflate(R.layout.schedule, container, false);
 
         listview = (ListView) view.findViewById(R.id.listView);
-        ScheduleAdapter adapter = new ScheduleAdapter(getActivity(),
-                db.GetMatchs(currentChampionship_, 1));
-        listview.setAdapter(adapter);
+        listview.setAdapter(new ScheduleAdapter(getActivity()));
 
         spinner = (Spinner) view.findViewById(R.id.days);
         ArrayAdapter<String> daysAdapter = new ArrayAdapter<String>(

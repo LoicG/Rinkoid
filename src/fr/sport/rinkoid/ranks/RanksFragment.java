@@ -3,7 +3,6 @@ package fr.sport.rinkoid.ranks;
 import fr.sport.rinkoid.DatabaseHelper;
 import fr.sport.rinkoid.IStateChanged;
 import fr.sport.rinkoid.R;
-import fr.sport.rinkoid.Tools;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,9 +21,7 @@ public class RanksFragment extends Fragment implements IStateChanged {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.listview, container, false);
         listview = (ListView) view.findViewById(R.id.listView);
-        RanksAdapter adapter = new RanksAdapter(getActivity(),
-                DatabaseHelper.getInstance(getActivity()).GetRanks(Tools.N1));
-        listview.setAdapter(adapter);
+        listview.setAdapter(new RanksAdapter(getActivity()));
         return view;
     }
 

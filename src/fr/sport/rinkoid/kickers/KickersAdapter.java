@@ -15,10 +15,10 @@ public class KickersAdapter extends ArrayAdapter<Kicker> {
     private final Context context;
     private ArrayList<Kicker> items;
 
-    public KickersAdapter(Context context, ArrayList<Kicker> items) {
-        super(context, R.layout.kicker_row, items);
+    public KickersAdapter(Context context) {
+        super(context, R.layout.kicker_row);
         this.context = context;
-        this.items = items;
+        this.items = new ArrayList<Kicker>();
     }
 
     @Override

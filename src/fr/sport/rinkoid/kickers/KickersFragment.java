@@ -3,7 +3,7 @@ package fr.sport.rinkoid.kickers;
 import fr.sport.rinkoid.DatabaseHelper;
 import fr.sport.rinkoid.IStateChanged;
 import fr.sport.rinkoid.R;
-import fr.sport.rinkoid.Tools;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,10 +21,7 @@ public class KickersFragment extends Fragment implements IStateChanged {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.listview, container, false);
         listview = (ListView) view.findViewById(R.id.listView);
-
-        KickersAdapter adapter = new KickersAdapter(getActivity(),
-                DatabaseHelper.getInstance(getActivity()).GetKickers(Tools.N1));
-        listview.setAdapter(adapter);
+        listview.setAdapter(new KickersAdapter(getActivity()));
         return view;
     }
 

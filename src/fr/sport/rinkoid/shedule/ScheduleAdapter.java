@@ -16,10 +16,10 @@ public class ScheduleAdapter extends ArrayAdapter<Match> {
     private final Context context;
     private ArrayList<Match> items;
 
-    public ScheduleAdapter(Context context, ArrayList<Match> items) {
-        super(context, R.layout.schedule_row, items);
+    public ScheduleAdapter(Context context) {
+        super(context, R.layout.schedule_row);
         this.context = context;
-        this.items = items;
+        this.items = new ArrayList<Match>();
     }
 
     @Override
