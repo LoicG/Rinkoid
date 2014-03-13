@@ -44,7 +44,6 @@ public class ScheduleFragment  extends Fragment implements OnClickListener,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        DatabaseHelper db = DatabaseHelper.getInstance(getActivity());
         View view = inflater.inflate(R.layout.schedule, container, false);
 
         listview = (ListView) view.findViewById(R.id.listView);
