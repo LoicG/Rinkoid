@@ -54,6 +54,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         actionBar.setListNavigationCallbacks(adapter, this);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setOffscreenPageLimit(2);
         tabHost = (TabHost) findViewById(android.R.id.tabhost);
         tabHost.setup();
         AddTab(tabHost, tabHost.newTabSpec("scheduleTab").setIndicator(
