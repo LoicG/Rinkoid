@@ -124,14 +124,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    private String FormatDate(String date) {
+    private String FormatOutputDate(String date) {
         if(date != "") {
             String[] splits = date.split("/");
             if(splits.length == 3) {
                 return splits[2] + "-" + splits[1] + "-" + splits[0];
             }
         }
-        return "";
+        return date;
+    }
+
+    private String FormatInputDate(String date) {
+        if(date != "") {
+            String[] splits = date.split("-");
+            if(splits.length == 3) {
+                return splits[2] + "-" + splits[1] + "-" + splits[0];
+            }
+        }
+        return date;
     }
 
     public void SaveMatchs(ArrayList<Match> matchs, int championship, int day) {
@@ -142,7 +152,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             for (Match match : matchs) {
                 ContentValues value = new ContentValues();
                 value.put(DAY_ATTRIBUT, day);
-                value.put(DATE_ATTRIBUT, FormatDate(match.getDate()));
+                value.put(DATE_ATTRIBUT, FormatOutputDate(match.getDate()));
                 value.put(HOME_ATTRIBUT, match.getHome());
                 value.put(SCORE_ATTRIBUT, match.getScore());
                 value.put(OUTSIDE_ATTRIBUT, match.getOutside());
@@ -165,7 +175,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Match> matchs = new ArrayList<Match>();
         String query = "SELECT * FROM "
                 + getScheduleTable(Tools.ConvertChampionship(championship))
-                + " WHERE " + DAY_ATTRIBUT + " = '" + day + "'";
+                + " WHERE " + DAY_ATTRIBUT + " = '" + day + "' ORDER BY date(" +
+                DATE_ATTRIBUT + ") ASC";
         SQLiteDatabase database = getReadableDatabase();
         if(database != null) {
             Cursor c = database.rawQuery(query, null);
@@ -174,8 +185,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     matchs.add(new Match(c.getString(c
                             .getColumnIndex(HOME_ATTRIBUT)), c.getString(c
                             .getColumnIndex(SCORE_ATTRIBUT)), c.getString(c
-                            .getColumnIndex(OUTSIDE_ATTRIBUT)), c.getString(c
-                            .getColumnIndex(DATE_ATTRIBUT))));
+                            .getColumnIndex(OUTSIDE_ATTRIBUT)), FormatInputDate(
+                                    c.getString(c.getColumnIndex(DATE_ATTRIBUT)))));
                 } while (c.moveToNext());
             }
             c.close();
