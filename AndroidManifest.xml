@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fr.sport.rinkoid"
+    package="application.rinkoid"
     android:versionCode="3"
     android:versionName="2.0">
 
@@ -14,9 +14,9 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-        android:name="fr.sport.rinkoid.ACRALogger">
+        android:name="application.rinkoid.ACRALogger">
         <activity
-            android:name="fr.sport.rinkoid.MainActivity"
+            android:name="application.rinkoid.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
