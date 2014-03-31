@@ -17,8 +17,8 @@ import application.rinkoid.ranks.Rank;
 import application.rinkoid.shedule.Match;
 
 public class DownloadManager implements IStateChanged {
-    private int championship;
-    private int page;
+    private int currentChampionship;
+    private int currentPage;
     private DatabaseHelper database;
     private PageAdapter pageAdapter;
     private JerichoParserRank rankParser;
@@ -26,8 +26,8 @@ public class DownloadManager implements IStateChanged {
     private JerichoParserFixture fixtureParser;
 
     public DownloadManager(DatabaseHelper database,PageAdapter pageAdapter) {
-        this.championship = Tools.N1;
-        this.page = Tools.SCHEDULE_PAGE;
+        this.currentChampionship = Tools.N1;
+        this.currentPage = Tools.SCHEDULE_PAGE;
         this.database = database;
         this.pageAdapter = pageAdapter;
         this.rankParser = new JerichoParserRank();
@@ -37,18 +37,20 @@ public class DownloadManager implements IStateChanged {
 
     public void Update(MenuItem menuItem) {
         final int day = pageAdapter.getCurrentDay();
+        final int championship = currentChampionship;
+        final int page = currentPage;
         String[] parameters = {Tools.GetUrl(championship, page),
                 page == Tools.SCHEDULE_PAGE ? String.valueOf(day) : "" };
         new AsyncHttpTask(menuItem) {
             @Override
             protected void onPostExecute(String result) {
                 super.onPostExecute(result);
-                resolve(result, page, day);
+                resolve(result, page, day, championship);
             }
         }.execute( parameters );
     }
 
-    private void resolve(String result, int page, int day) {
+    private void resolve(String result, int page, int day, int championship) {
         boolean valid = false;
         if(page == Tools.RANKS_PAGE) {
             ArrayList<Rank> ranks = new ArrayList<Rank>();
@@ -72,18 +74,18 @@ public class DownloadManager implements IStateChanged {
                 valid = true;
             }
         }
-        if( valid ) {
+        if( valid && championship == currentChampionship ) {
             pageAdapter.onChampionshipChanged(championship);
         }
     }
     @Override
     public void onChampionshipChanged(int championship) {
-        this.championship = championship;
+        this.currentChampionship = championship;
     }
 
     @Override
     public void onPageChanged(int page) {
-        this.page = page;
+        this.currentPage = page;
     }
 
     private class AsyncHttpTask extends AsyncTask< String, Void, String > {
