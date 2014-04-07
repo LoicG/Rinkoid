@@ -14,6 +14,6 @@
     <string name="serie">V/N/P</string>
     <string name="diff">+/-</string>
     <string name="download">Récupération des données</string>
-    <string name="downloadText">Téléchargement...</string>
-    <string name="warningText">Vous devez mettre à jour manuellement afin de récupérer le classement des buteurs.</string>
+    <string name="downloadText">Téléchargement&#8230;</string>
+    <string name="warningText">Mettre à jour nécessaire.</string>
 </resources>

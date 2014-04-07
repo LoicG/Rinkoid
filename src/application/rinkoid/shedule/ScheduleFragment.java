@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import application.rinkoid.DatabaseHelper;
 import application.rinkoid.IStateChanged;
 import application.rinkoid.R;
@@ -23,6 +24,7 @@ public class ScheduleFragment  extends Fragment implements OnClickListener,
         OnItemSelectedListener, IStateChanged {
     private static ListView listview;
     private static Spinner spinner;
+    private static TextView warning;
     private int currentChampionship_;
 
     private ArrayList<String> generateDays(int championship){
@@ -45,7 +47,7 @@ public class ScheduleFragment  extends Fragment implements OnClickListener,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.schedule, container, false);
-
+        warning = (TextView) view.findViewById(R.id.missing);
         listview = (ListView) view.findViewById(R.id.listView);
         listview.setAdapter(new ScheduleAdapter(getActivity()));
 
@@ -66,11 +68,14 @@ public class ScheduleFragment  extends Fragment implements OnClickListener,
     }
 
     private void UpdateListView(int day) {
-        if( listview != null ) {
+        if (listview != null) {
             ScheduleAdapter adapter = (ScheduleAdapter) listview.getAdapter();
-            if(adapter!=null)
-                adapter.Update(DatabaseHelper.getInstance(getActivity()).
-                        GetMatchs(currentChampionship_,day));
+            if (adapter!=null && warning!=null) {
+                ArrayList<Match> matchs = DatabaseHelper.getInstance(getActivity()).
+                        GetMatchs(currentChampionship_,day);
+                warning.setVisibility(matchs.isEmpty() ? View.VISIBLE : View.GONE);
+                adapter.Update(matchs);
+            }
         }
     }
 

@@ -49,7 +49,7 @@ public class Tools {
         case N1:
             return 22;
         case N2N:
-            return 17;
+            return 18;
         case N2S:
             return 18;
         default:

@@ -24,21 +24,16 @@ public class KickersAdapter extends ArrayAdapter<Kicker> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if( items.size() == 1 ) {
-            return inflater.inflate(R.layout.need_update, parent, false);
-        }
-        else {
-            if(position == 0) {
-                return inflater.inflate(R.layout.kicker_header, parent, false);
-            } else {
-                View rowView = inflater.inflate(R.layout.kicker_row, parent, false);
-                Kicker kicker = items.get(position);
-                SetText(R.id.rank, rowView, String.valueOf(position));
-                SetText(R.id.name, rowView, kicker.getName());
-                SetText(R.id.club, rowView, kicker.getClub());
-                SetText(R.id.goals, rowView, String.valueOf(kicker.getGoals()));
-                return rowView;
-            }
+        if (position == 0) {
+            return inflater.inflate(R.layout.kicker_header, parent, false);
+        } else {
+            View rowView = inflater.inflate(R.layout.kicker_row, parent, false);
+            Kicker kicker = items.get(position);
+            SetText(R.id.rank, rowView, String.valueOf(position));
+            SetText(R.id.name, rowView, kicker.getName());
+            SetText(R.id.club, rowView, kicker.getClub());
+            SetText(R.id.goals, rowView, String.valueOf(kicker.getGoals()));
+            return rowView;
         }
     }
 

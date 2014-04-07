@@ -197,7 +197,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public ArrayList<Kicker> GetKickers(int championship) {
         ArrayList<Kicker> kickers = new ArrayList<Kicker>();
-        kickers.add(new Kicker("", 0, ""));
         String query = "SELECT * FROM " + KICKERS_TABLE + " WHERE "
                 + CHAMPIONSHIP_ATTRIBUT + " = '"
                 + Tools.ConvertChampionship(championship) + "'" + " ORDER BY "
