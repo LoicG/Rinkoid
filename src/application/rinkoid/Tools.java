@@ -64,11 +64,17 @@ public class Tools {
     private static String GetUrl(int championship, String type) {
         switch(championship) {
         case N1:
-            return "http://stat.ffrs.asso.fr/stats/match/"+ type +"/1810";
+            // Version 1810: 2013-2014
+            // Version 2211: 2014-2015
+            return "http://stat.ffrs.asso.fr/stats/match/"+ type +"/2211";
         case N2N:
-            return "http://stat.ffrs.asso.fr/stats/match/"+ type +"/1812";
+            // Version 1812: 2014-2015
+            // Version 2214: 2013-2014
+            return "http://stat.ffrs.asso.fr/stats/match/"+ type +"/2214";
         case N2S:
-            return "http://stat.ffrs.asso.fr/stats/match/"+ type +"/1853";
+            // Version 1853: 2013-2014
+            // Version 2215: 2014-2015
+            return "http://stat.ffrs.asso.fr/stats/match/"+ type +"/2215";
         default:
             return "";
         }

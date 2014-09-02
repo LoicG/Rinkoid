@@ -13,8 +13,9 @@ import application.rinkoid.ranks.Rank;
 import application.rinkoid.shedule.Match;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-
-    private static final int DATABASE_VERSION = 1;
+    // Version 1: 2013-2014
+    // Version 2: 2014-2015
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "rinkoidDB";
 
     private static final String KICKERS_TABLE = "kickers_table";
@@ -82,6 +83,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if(oldVersion != newVersion) {
+            db.execSQL("DELETE FROM '" + KICKERS_TABLE + "'");
+            db.execSQL("DELETE FROM '" + RANKS_TABLE + "'");
+            db.execSQL("DELETE FROM '" + SCHEDULE_N1_TABLE + "'");
+            db.execSQL("DELETE FROM '" + SCHEDULE_N2N_TABLE + "'");
+            db.execSQL("DELETE FROM '" + SCHEDULE_N2S_TABLE + "'");
+        }
     }
 
     public void SaveKicker(ArrayList<Kicker> kickers, int championship) {
