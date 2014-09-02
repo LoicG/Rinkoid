@@ -15,5 +15,5 @@
     <string name="diff">+/-</string>
     <string name="download">Récupération des données</string>
     <string name="downloadText">Téléchargement&#8230;</string>
-    <string name="warningText">Mettre à jour nécessaire.</string>
+    <string name="warningText">Mise à jour nécessaire.</string>
 </resources>
