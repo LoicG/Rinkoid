@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/D:/perso/dev/rinkoid/app/src/main/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- From: file:/D:/perso/dev/rinkoid/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="app_name">Rinkoid</string>
+    <string name="days">J.</string>
+    <string name="diff">+/-</string>
+    <string name="download">Récupération des données</string>
+    <string name="downloadText">Téléchargement…</string>
+    <string name="goals">Buts</string>
+    <string name="kickers">Buteurs</string>
+    <string name="n1">N1 Elite</string>
+    <string name="n2n">N2 Nord</string>
+    <string name="n2s">N2 Sud</string>
+    <string name="points">Pts</string>
+    <string name="ranking">Classement</string>
+    <string name="schedule">Calendrier</string>
+    <string name="serie">V/N/P</string>
+    <string name="update">Mise à jour</string>
+    <string name="warningText">Mise à jour nécessaire.</string>
+    <!-- From: file:/D:/perso/dev/rinkoid/app/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="AppBaseTheme" parent="android:Theme.Light"/>
+    <style name="AppTheme" parent="AppBaseTheme"/>
+</resources>

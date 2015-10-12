@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="10sp"
+    android:paddingRight="10sp"
+    android:paddingTop="10sp"
+    android:paddingBottom="10sp"
+    android:stretchColumns="*"
+    android:shrinkColumns="1">
+    <TableRow>
+        <TextView android:id="@+id/rank"
+                  android:layout_width="0dp"
+                  android:layout_weight="2"
+                  android:textStyle="bold"
+                  android:layout_height="wrap_content"
+                  android:gravity="left"/>
+        <TextView android:id="@+id/club"
+                  android:layout_width="0dp" 
+                  android:textStyle="bold"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="15"
+                  android:gravity="left"/>
+        <TextView android:id="@+id/points"
+                  android:layout_width="0dp"
+                  android:textStyle="bold"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="3"
+                  android:gravity="right"/>
+        <TextView android:id="@+id/days"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="3"
+                  android:gravity="right"/>
+        <TextView android:id="@+id/diff"
+                  android:layout_width="0dp"  
+                  android:layout_height="wrap_content"
+                  android:layout_weight="3"
+                  android:gravity="right"/>
+        <TextView android:id="@+id/serie"
+                  android:textStyle="italic"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="5"
+                  android:gravity="right"/>
+    </TableRow>
+</TableLayout><!-- From: file:/D:/perso/dev/rinkoid/app/src/main/res/layout/rank_row.xml -->
