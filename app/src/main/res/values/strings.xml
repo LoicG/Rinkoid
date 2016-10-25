@@ -2,8 +2,8 @@
 <resources>
     <string name="app_name">Rinkoid</string>
     <string name="n1">N1 Elite</string>
-    <string name="n2n">N2 Nord</string>
-    <string name="n2s">N2 Sud</string>
+    <string name="n2n">N2 Est</string>
+    <string name="n2s">N2 Ouest</string>
     <string name="schedule">Calendrier</string>
     <string name="ranking">Classement</string>
     <string name="kickers">Buteurs</string>

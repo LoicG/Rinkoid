@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Version 1: 2013-2014
     // Version 2: 2014-2015
     // Version 3: 2015-2016
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "rinkoidDB";
 
     private static final String KICKERS_TABLE = "kickers_table";
