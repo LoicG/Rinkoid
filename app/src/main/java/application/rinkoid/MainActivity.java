@@ -43,8 +43,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.OnNaviga
         Resources ressources = getResources();
         navSpinner = new ArrayList<SpinnerNavItem>();
         navSpinner.add(new SpinnerNavItem(ressources.getString(R.string.n1)));
-        navSpinner.add(new SpinnerNavItem(ressources.getString(R.string.n2n)));
-        navSpinner.add(new SpinnerNavItem(ressources.getString(R.string.n2s)));
+        navSpinner.add(new SpinnerNavItem(ressources.getString(R.string.n2)));
         adapter = new TitleNavigationAdapter(getApplicationContext(), navSpinner);
         actionBar.setListNavigationCallbacks(adapter, this);
 
